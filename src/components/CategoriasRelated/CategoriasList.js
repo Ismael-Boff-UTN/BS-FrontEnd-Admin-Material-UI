@@ -2,13 +2,19 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { BlockLoading } from "react-loadingg";
 import MaterialTable from "material-table";
+import Chip from "@material-ui/core/Chip/Chip";
 
 const CategoriasList = () => {
+  const token = localStorage.getItem("token");
   const [categorias, setCategorias] = useState([]);
 
   useEffect(() => {
     axios
-      .get("https://buen-sabor-api.herokuapp.com/api/categorias")
+      .get("https://buen-sabor-api.herokuapp.com/api/categorias/admin", {
+        headers: {
+          "x-token": token,
+        },
+      })
       .then((response) => {
         // Obtenemos los datos
 
@@ -18,7 +24,7 @@ const CategoriasList = () => {
         // Capturamos los errores
         console.log(e);
       });
-  }, []);
+  }, [token]);
 
   const cols = [
     {
@@ -39,7 +45,18 @@ const CategoriasList = () => {
     {
       title: "Estado",
       field: "estado",
-      type: "boolean",
+      render: (rowData) =>
+      rowData.estado === true ? (
+        <Chip
+          label="Activo"
+          style={{ backgroundColor: "green", color: "white" }}
+        />
+      ) : (
+        <Chip
+          label="Inactivo"
+          style={{ backgroundColor: "red", color: "white" }}
+        />
+      ),
     },
   ];
 
@@ -49,30 +66,27 @@ const CategoriasList = () => {
         <BlockLoading size="large" />
       ) : (
         <>
-          <h1>Lista Categorias</h1>
-          <div className="mt-3">
-            <MaterialTable
-              columns={cols}
-              data={categorias}
-              title="Categorias"
-              actions={[
-                {
-                  icon: "edit",
-                  tooltip: "Editar Categoria",
-                  onClick: (e, rowData) =>
-                    alert("presionaste " + rowData.denominacion),
-                },
-                {
-                  icon: "delete",
-                  tooltip: "Eliminar Categoria",
-                  onClick: (e, rowData) =>
-                    alert("presionaste " + rowData.denominacion),
-                },
-              ]}
-              options={{ actionsColumnIndex: -1, exportButton: true }}
-              localization={{ header: { actions: "Acciones" } }}
-            />
-          </div>
+          <MaterialTable
+            columns={cols}
+            data={categorias}
+            title="Listado De Categorias"
+            actions={[
+              {
+                icon: "edit",
+                tooltip: "Editar Categoria",
+                onClick: (e, rowData) =>
+                  alert("presionaste " + rowData.denominacion),
+              },
+              {
+                icon: "delete",
+                tooltip: "Eliminar Categoria",
+                onClick: (e, rowData) =>
+                  alert("presionaste " + rowData.denominacion),
+              },
+            ]}
+            options={{ actionsColumnIndex: -1, exportButton: true }}
+            localization={{ header: { actions: "Acciones" } }}
+          />
         </>
       )}
     </div>

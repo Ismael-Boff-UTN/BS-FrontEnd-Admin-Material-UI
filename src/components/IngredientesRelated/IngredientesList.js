@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import { BlockLoading } from "react-loadingg";
 import MaterialTable from "material-table";
@@ -6,7 +6,28 @@ import swal from "sweetalert2";
 import Chip from "@material-ui/core/Chip";
 
 const IngredientesList = () => {
+  const token = localStorage.getItem("token");
   const [ingredientes, setIngredientes] = useState([]);
+
+  const onDeleteIngrediente = useCallback ((id) => {
+    axios
+      .delete(`https://buen-sabor-api.herokuapp.com/api/ingredientes/${id}`, {
+        headers: {
+          "x-token": token,
+        },
+      })
+      .then((response) => {
+        // Obtenemos los datos
+
+        console.log(response.data.msg);
+        swal.fire("", `${response.data.msg}`, "success");
+      })
+      .catch((e) => {
+        // Capturamos los errores
+        console.log(e);
+      });
+  },[token]);
+
   useEffect(() => {
     axios
       .get("https://buen-sabor-api.herokuapp.com/api/ingredientes")
@@ -19,7 +40,7 @@ const IngredientesList = () => {
         // Capturamos los errores
         console.log(e);
       });
-  }, []);
+  }, [onDeleteIngrediente]);
 
   const cols = [
     {
@@ -78,7 +99,7 @@ const IngredientesList = () => {
             <MaterialTable
               columns={cols}
               data={ingredientes}
-              title="Ingredientes"
+              title="Listado Ingredientes"
               actions={[
                 {
                   icon: "edit",
@@ -89,8 +110,7 @@ const IngredientesList = () => {
                 {
                   icon: "delete",
                   tooltip: "Eliminar Ingrediente",
-                  onClick: (e, rowData) =>
-                    alert("presionaste " + rowData.denominacion),
+                  onClick: (e, rowData) => onDeleteIngrediente(rowData._id),
                 },
               ]}
               options={{ actionsColumnIndex: -1, exportButton: true }}
