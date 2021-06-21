@@ -1,5 +1,5 @@
 import React from "react";
-import { fade, makeStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
@@ -18,6 +18,8 @@ import ExtensionOutlinedIcon from "@material-ui/icons/ExtensionOutlined";
 import AccountCircleOutlinedIcon from "@material-ui/icons/AccountCircleOutlined";
 import MergeTypeOutlinedIcon from "@material-ui/icons/MergeTypeOutlined";
 import VpnKeyOutlinedIcon from "@material-ui/icons/VpnKeyOutlined";
+import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 //
 import { useSelector, useDispatch } from "react-redux";
 import { startLogout } from "../../actions/auth";
@@ -26,6 +28,10 @@ const useStyles = makeStyles((theme) => ({
   grow: {
     flexGrow: 1,
   },
+  mainTitle: {
+    fontFamily: "Dancing Script",
+    fontSize: "30px",
+  },
 
   title: {
     display: "none",
@@ -33,46 +39,7 @@ const useStyles = makeStyles((theme) => ({
       display: "block",
     },
   },
-  avatarName: {
-    alignContent: "center",
-  },
-  search: {
-    position: "relative",
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: fade(theme.palette.common.white, 0.15),
-    "&:hover": {
-      backgroundColor: fade(theme.palette.common.white, 0.25),
-    },
-    marginRight: theme.spacing(2),
-    marginLeft: 0,
-    width: "100%",
-    [theme.breakpoints.up("sm")]: {
-      marginLeft: theme.spacing(3),
-      width: "auto",
-    },
-  },
-  searchIcon: {
-    padding: theme.spacing(0, 2),
-    height: "100%",
-    position: "absolute",
-    pointerEvents: "none",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  inputRoot: {
-    color: "inherit",
-  },
-  inputInput: {
-    padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
-    transition: theme.transitions.create("width"),
-    width: "100%",
-    [theme.breakpoints.up("md")]: {
-      width: "20ch",
-    },
-  },
+
   sectionDesktop: {
     display: "none",
     [theme.breakpoints.up("md")]: {
@@ -114,7 +81,7 @@ export default function NavBar() {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
-  const { nombre, img } = useSelector((state) => state.auth.resto);
+  const { nombre, apellido, img } = useSelector((state) => state.auth.resto);
 
   const dispatch = useDispatch();
   const handleLogout = () => {
@@ -132,9 +99,15 @@ export default function NavBar() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Perfil</MenuItem>
+      <MenuItem onClick={handleMenuClose}>
+        <AccountCircleOutlinedIcon />
+        &nbsp;&nbsp;Perfil
+      </MenuItem>
 
-      <MenuItem onClick={handleLogout}>Cerrar Sesión</MenuItem>
+      <MenuItem onClick={handleLogout}>
+        <ExitToAppIcon />
+        &nbsp;&nbsp;Cerrar Sesión
+      </MenuItem>
     </Menu>
   );
 
@@ -157,21 +130,29 @@ export default function NavBar() {
           aria-haspopup="true"
           color="inherit"
         >
-          <Typography className={classes.avatarName}>{nombre}</Typography>
+          <Typography className={classes.avatarName} variant="h5">
+            {nombre + " " + apellido}
+          </Typography>
+          &nbsp;&nbsp;
           <Avatar alt="Remy Sharp" src={img} className={classes.large} />
+          &nbsp;&nbsp;
+          <KeyboardArrowDownIcon />
         </IconButton>
-        <p>Perfil</p>
       </MenuItem>
     </Menu>
   );
 
   return (
     <div className={classes.grow}>
-      <AppBar position="absolute">
+      <AppBar position="absolute" style={{ background: "#2E3B55" }}>
         <Toolbar>
-          <FastfoodIcon />
-          <Typography className={classes.title} variant="h6" noWrap>
-            El Buen Sabor
+          <Avatar
+            alt="Remy Sharp"
+            src="assets/images/bs_admin.png"
+            className={classes.large}
+          />
+          <Typography className={classes.mainTitle} variant="h6" noWrap>
+            &nbsp;&nbsp;{"El Buen Sabor </>"}
           </Typography>
 
           <div className={classes.grow} />
@@ -185,6 +166,10 @@ export default function NavBar() {
               color="inherit"
             >
               <Avatar alt="Remy Sharp" src={img} className={classes.large} />
+              &nbsp;&nbsp;
+              {nombre}
+              &nbsp;&nbsp;
+              <KeyboardArrowDownIcon />
             </IconButton>
           </div>
           <div className={classes.sectionMobile}>

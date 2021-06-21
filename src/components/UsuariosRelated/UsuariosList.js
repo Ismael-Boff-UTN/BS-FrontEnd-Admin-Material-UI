@@ -92,8 +92,58 @@ const UsuariosList = () => {
                   alert("presionaste " + rowData.denominacion),
               },
             ]}
-            options={{ actionsColumnIndex: -1, exportButton: true }}
+            options={{
+              actionsColumnIndex: -1,
+              exportButton: true,
+              headerStyle: {
+                backgroundColor: "#FF616D",
+                color: "#FFF",
+              },
+            }}
             localization={{ header: { actions: "Acciones" } }}
+            detailPanel={[
+              {
+                tooltip: `Ver Pedidos`,
+                render: (rowData) => {
+                  return (
+                    <div
+                      style={{
+                        fontSize: 10,
+                        textAlign: "center",
+                        color: "white",
+                        backgroundColor: "#43A047",
+                      }}
+                    >
+                      {rowData.pedidos.map((p) => (
+                        <>
+                          <p>{p.estado}</p>
+                          <p>{p.tipoEnvio}</p>
+                          <p>{p.fecha}</p>
+                        </>
+                      ))}
+                    </div>
+                  );
+                },
+              },
+              {
+                icon: "account_circle",
+                tooltip: "Show Surname",
+                render: (rowData) => {
+                  return (
+                    <div
+                      style={{
+                        fontSize: 100,
+                        textAlign: "center",
+                        color: "white",
+                        backgroundColor: "#E53935",
+                      }}
+                    >
+                      {rowData.apellido}
+                    </div>
+                  );
+                },
+              },
+            ]}
           />
         </>
       )}
