@@ -4,29 +4,41 @@ import { BlockLoading } from "react-loadingg";
 import MaterialTable from "material-table";
 import swal from "sweetalert2";
 import Chip from "@material-ui/core/Chip";
+import Select from "@material-ui/core/Select";
+import MenuItem from "@material-ui/core/MenuItem";
 
 const IngredientesList = () => {
   const token = localStorage.getItem("token");
   const [ingredientes, setIngredientes] = useState([]);
+  const [onDelete, setOnDelete] = useState(false);
 
-  const onDeleteIngrediente = useCallback ((id) => {
-    axios
-      .delete(`https://buen-sabor-api.herokuapp.com/api/ingredientes/${id}`, {
-        headers: {
-          "x-token": token,
-        },
-      })
-      .then((response) => {
-        // Obtenemos los datos
+  const onDeleteIngrediente = useCallback(
+    (id) => {
+      axios
+        .delete(`https://buen-sabor-api.herokuapp.com/api/ingredientes/${id}`, {
+          headers: {
+            "x-token": token,
+          },
+        })
+        .then((response) => {
+          // Obtenemos los datos
 
-        console.log(response.data.msg);
-        swal.fire("", `${response.data.msg}`, "success");
-      })
-      .catch((e) => {
-        // Capturamos los errores
-        console.log(e);
-      });
-  },[token]);
+          console.log(response.data.msg);
+          swal.fire("", `${response.data.msg}`, "success");
+
+          if (onDelete === false) {
+            setOnDelete(true);
+          } else {
+            setOnDelete(false);
+          }
+        })
+        .catch((e) => {
+          // Capturamos los errores
+          console.log(e);
+        });
+    },
+    [token, onDelete]
+  );
 
   useEffect(() => {
     axios
@@ -40,7 +52,7 @@ const IngredientesList = () => {
         // Capturamos los errores
         console.log(e);
       });
-  }, [onDeleteIngrediente]);
+  }, [onDelete]);
 
   const cols = [
     {
@@ -70,10 +82,23 @@ const IngredientesList = () => {
     {
       title: "Unidad Medida",
       field: "unidadMedida",
+      editComponent: (props) => (
+        <Select
+          labelId="demo-simple-select-helper-label"
+          id="demo-simple-select-helper"
+          value={10}
+        >
+          <MenuItem value={0}>kg</MenuItem>
+          <MenuItem value={10}>gr</MenuItem>
+          <MenuItem value={20}>ml</MenuItem>
+          <MenuItem value={30}>unidad</MenuItem>
+        </Select>
+      ),
     },
     {
       title: "Estado",
       field: "estado",
+      editable: "never",
       render: (rowData) =>
         rowData.estado === true ? (
           <Chip
@@ -102,12 +127,6 @@ const IngredientesList = () => {
               title="Listado Ingredientes"
               actions={[
                 {
-                  icon: "edit",
-                  tooltip: "Editar Ingrediente",
-                  onClick: (e, rowData) =>
-                    swal.fire("", `${rowData.denominacion}`, "success"),
-                },
-                {
                   icon: "delete",
                   tooltip: "Eliminar Ingrediente",
                   onClick: (e, rowData) => onDeleteIngrediente(rowData._id),
@@ -122,6 +141,37 @@ const IngredientesList = () => {
                 },
                 body: {
                   emptyDataSourceMessage: "No Se Encontraron Ingredientes",
+                },
+              }}
+              editable={{
+                onRowUpdate: async (newData, oldData) => {
+                  const dataUpdate = [...ingredientes];
+                  const index = oldData.tableData.id;
+                  dataUpdate[index] = newData;
+
+                  await axios
+                    .put(
+                      `https://buen-sabor-api.herokuapp.com/api/ingredientes/${oldData._id}`,
+                      newData,
+                      {
+                        headers: {
+                          "x-token": token,
+                        },
+                      }
+                    )
+                    .then((response) => {
+                      // Obtenemos los datos
+                      swal.fire("OK!", `${response.data.msg}`, "success");
+                      if (onDelete === false) {
+                        setOnDelete(true);
+                      } else {
+                        setOnDelete(false);
+                      }
+                    })
+                    .catch((e) => {
+                      // Capturamos los errores
+                      console.log(e);
+                    });
                 },
               }}
             />
