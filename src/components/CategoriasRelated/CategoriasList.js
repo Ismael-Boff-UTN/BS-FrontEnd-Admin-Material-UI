@@ -3,10 +3,12 @@ import axios from "axios";
 import { BlockLoading } from "react-loadingg";
 import MaterialTable from "material-table";
 import Chip from "@material-ui/core/Chip/Chip";
+import swal from "sweetalert2";
 
 const CategoriasList = () => {
   const token = localStorage.getItem("token");
   const [categorias, setCategorias] = useState([]);
+  const [onDelete, setOnDelete] = useState(false);
 
   useEffect(() => {
     axios
@@ -72,12 +74,6 @@ const CategoriasList = () => {
             title="Listado De Categorias"
             actions={[
               {
-                icon: "edit",
-                tooltip: "Editar Categoria",
-                onClick: (e, rowData) =>
-                  alert("presionaste " + rowData.denominacion),
-              },
-              {
                 icon: "delete",
                 tooltip: "Eliminar Categoria",
                 onClick: (e, rowData) =>
@@ -86,6 +82,36 @@ const CategoriasList = () => {
             ]}
             options={{ actionsColumnIndex: -1, exportButton: true }}
             localization={{ header: { actions: "Acciones" } }}
+            editable={{
+              onRowUpdate: async (newData, oldData) => {
+                const dataUpdate = [...categorias];
+                const index = oldData.tableData.id;
+                dataUpdate[index] = newData;
+
+                await axios.put(
+                  `https://buen-sabor-api.herokuapp.com/api/categorias/${oldData._id}`,
+                  newData,
+                  {
+                    headers: {
+                      "x-token": token,
+                    },
+                  }
+                )
+                .then((response) => {
+                  // Obtenemos los datos
+                  swal.fire("Actualizado!",`${response.data.msg}`,"success");
+                  if (onDelete === false) {
+                    setOnDelete(true);
+                  } else {
+                    setOnDelete(false);
+                  }
+                })
+                .catch((e) => {
+                  // Capturamos los errores
+                  console.log(e);
+                });
+              }
+            }}
           />
         </>
       )}
