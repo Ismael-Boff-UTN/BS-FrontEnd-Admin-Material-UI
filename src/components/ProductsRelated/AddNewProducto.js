@@ -43,9 +43,9 @@ const useStyles = makeStyles((theme) => ({
 const AddNewProducto = () => {
   const [open, setOpen] = React.useState(false);
   const [producto, setProducto] = React.useState({
-    denominacion: "",
-    precioVenta: "",
-    tiempoEstimadoCocina: "",
+    denominacion: Text,
+    precioVenta: Number,
+    tiempoEstimadoCocina: Number,
     imagen: "",
     //estado: false,
     esManufacturado: Boolean

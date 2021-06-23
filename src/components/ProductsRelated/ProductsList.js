@@ -9,6 +9,11 @@ import MaterialTable from "material-table";
 import Chip from "@material-ui/core/Chip/Chip";
 import swal from "sweetalert2";
 import AddNewIngrediente from './AddNewProducto';
+import {
+  Select,
+  MenuItem
+} from '@material-ui/core';
+
 const ProductsList = () => {
   const token = localStorage.getItem("token");
   const [productos, setProductos] = useState([]);
@@ -22,20 +27,18 @@ const ProductsList = () => {
         },
       })
       .then((response) => {
-        // Obtenemos los datos
-
         setProductos(response.data.articulos);
       })
       .catch((e) => {
-        // Capturamos los errores
         console.log(e);
       });
-  }, [token, onDelete]);
+  }, [token,onDelete]);
 
   const cols = [
     {
       title: "Denominacion",
       field: "denominacion",
+      type: "text"
     },
     {
       title: "¿Es Manufacturado?",
@@ -49,6 +52,16 @@ const ProductsList = () => {
         ) : (
           <Chip label="NO" style={{ backgroundColor: "red", color: "white" }} />
         ),
+      editComponent: (props) => (
+        <Select
+        labelId = "demo-simple-select-helper-label"
+        id = "demo-simple-select-helper"
+        defaultValue= {props.value}
+      >
+      <MenuItem value={true}>Si</MenuItem>
+      <MenuItem value={false}>No</MenuItem>
+      </Select>
+    )
     },
     {
       title: "Imagen",
@@ -70,10 +83,10 @@ const ProductsList = () => {
       title: "Tiempo Cocción",
       field: "tiempoEstimadoCocina",
     },
-
     {
       title: "Estado",
       field: "estado",
+      editable: "never",
       render: (rowData) =>
         rowData.estado === true ? (
           <Chip
