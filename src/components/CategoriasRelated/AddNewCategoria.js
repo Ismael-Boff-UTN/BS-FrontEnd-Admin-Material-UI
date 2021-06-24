@@ -10,10 +10,7 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
 import { green } from "@material-ui/core/colors";
-import Select from "@material-ui/core/Select";
-import MenuItem from "@material-ui/core/MenuItem";
 import axios from "axios";
-import swal from "sweetalert2";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -129,7 +126,7 @@ const AddNewCategoria = () => {
               onChange={onChange}
               name="nombre"
               type="text"
-              required="true"
+              required={true}
             />
             <TextField
               id="outlined-basic2"
@@ -138,7 +135,7 @@ const AddNewCategoria = () => {
               onChange={onChange}
               name="img"
               type="text"
-              required="true"
+              required={true}
             />
           </form>
         </DialogContent>
