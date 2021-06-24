@@ -4,6 +4,7 @@ import { BlockLoading } from "react-loadingg";
 import MaterialTable from "material-table";
 import Chip from "@material-ui/core/Chip/Chip";
 import swal from "sweetalert2";
+import AddNewCategoria from "./AddNewCategoria";
 
 const CategoriasList = () => {
   const token = localStorage.getItem("token");
@@ -115,6 +116,7 @@ const CategoriasList = () => {
           />
         </>
       )}
+      <AddNewCategoria/>
     </div>
   );
 };
