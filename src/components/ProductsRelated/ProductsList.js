@@ -1,24 +1,31 @@
-import React, {
-  useState,
-  useEffect,
-  useCallback
-} from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import { BlockLoading } from "react-loadingg";
 import MaterialTable from "material-table";
 import Chip from "@material-ui/core/Chip/Chip";
 import swal from "sweetalert2";
-import AddNewIngrediente from './AddNewProducto';
-import {
-  Select,
-  MenuItem
-} from '@material-ui/core';
+import AddNewIngrediente from "./AddNewProducto";
+import { Select, MenuItem } from "@material-ui/core";
+import CloudUploadIcon from "@material-ui/icons/CloudUpload";
+import Button from "@material-ui/core/Button";
+import { makeStyles } from "@material-ui/core/styles";
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    "& > *": {
+      margin: theme.spacing(1),
+    },
+  },
+  input: {
+    display: "none",
+  },
+}));
 
 const ProductsList = () => {
   const token = localStorage.getItem("token");
   const [productos, setProductos] = useState([]);
   const [onDelete, setOnDelete] = useState(false);
-  
+  const classes = useStyles();
   useEffect(() => {
     axios
       .get("https://buen-sabor-api.herokuapp.com/api/articulos/admin", {
@@ -32,13 +39,13 @@ const ProductsList = () => {
       .catch((e) => {
         console.log(e);
       });
-  }, [token,onDelete]);
+  }, [token, onDelete]);
 
   const cols = [
     {
       title: "Denominacion",
       field: "denominacion",
-      type: "text"
+      type: "text",
     },
     {
       title: "¿Es Manufacturado?",
@@ -54,14 +61,14 @@ const ProductsList = () => {
         ),
       editComponent: (props) => (
         <Select
-        labelId = "demo-simple-select-helper-label"
-        id = "demo-simple-select-helper"
-        defaultValue= {props.value}
-      >
-      <MenuItem value={true}>Si</MenuItem>
-      <MenuItem value={false}>No</MenuItem>
-      </Select>
-    )
+          labelId="demo-simple-select-helper-label"
+          id="demo-simple-select-helper"
+          defaultValue={props.value}
+        >
+          <MenuItem value={true}>Si</MenuItem>
+          <MenuItem value={false}>No</MenuItem>
+        </Select>
+      ),
     },
     {
       title: "Imagen",
@@ -72,6 +79,22 @@ const ProductsList = () => {
           style={{ width: 50, borderRadius: "20%" }}
           alt="prod"
         />
+      ),
+      editComponent: (props) => (
+        <div className={classes.root}>
+          <input
+            accept="image/*"
+            className={classes.input}
+            id="contained-button-file"
+            type="file"
+          />
+          <label htmlFor="contained-button-file">
+            <Button variant="contained" color="primary" component="span">
+              <CloudUploadIcon />
+              &nbsp;&nbsp; Subir
+            </Button>
+          </label>
+        </div>
       ),
     },
     {
@@ -123,7 +146,8 @@ const ProductsList = () => {
         .catch((e) => {
           console.log(e);
         });
-    },[token, onDelete]
+    },
+    [token, onDelete]
   );
 
   return (
@@ -141,40 +165,44 @@ const ProductsList = () => {
                 icon: "delete",
                 tooltip: "Eliminar Producto",
                 onClick: (e, rowData) => onDeleteProducto(rowData._id),
-                  //alert("presionaste " + rowData.denominacion),
-              }
+                //alert("presionaste " + rowData.denominacion),
+              },
             ]}
             options={{ actionsColumnIndex: -1, exportButton: true }}
             localization={{ header: { actions: "Acciones" } }}
             editable={{
-                onRowUpdate: async (newData,oldData) =>{
-                  const dataUpdate = [...productos];
-                  const index = oldData.tableData.id;
-                  dataUpdate[index] = newData;
+              onRowUpdate: async (newData, oldData) => {
+                const dataUpdate = [...productos];
+                const index = oldData.tableData.id;
+                dataUpdate[index] = newData;
 
-                  await axios
-                  .put(`https://buen-sabor-api.herokuapp.com/api/articulos/${oldData._id}`,
-                      newData, {
-                        headers: {
-                          "x-token": token,
-                        },
-                      }
-                    )
-                    .then((response) => {
-                      swal.fire("OK!", `${response.data.msg}`, "success");
-                      if (onDelete === false) {
-                        setOnDelete(true);
-                      } else {
-                        setOnDelete(false);
-                      }
-                    })
-                    .catch((e) =>{console.log(e);});
-                  }
+                await axios
+                  .put(
+                    `https://buen-sabor-api.herokuapp.com/api/articulos/${oldData._id}`,
+                    newData,
+                    {
+                      headers: {
+                        "x-token": token,
+                      },
+                    }
+                  )
+                  .then((response) => {
+                    swal.fire("OK!", `${response.data.msg}`, "success");
+                    if (onDelete === false) {
+                      setOnDelete(true);
+                    } else {
+                      setOnDelete(false);
+                    }
+                  })
+                  .catch((e) => {
+                    console.log(e);
+                  });
+              },
             }}
           />
         </>
       )}
-      <AddNewIngrediente/>
+      <AddNewIngrediente />
     </div>
   );
 };
