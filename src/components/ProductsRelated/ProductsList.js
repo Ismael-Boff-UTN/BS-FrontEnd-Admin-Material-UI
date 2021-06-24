@@ -5,7 +5,6 @@ import MaterialTable from "material-table";
 import Chip from "@material-ui/core/Chip/Chip";
 import swal from "sweetalert2";
 import AddNewIngrediente from "./AddNewProducto";
-import { Select, MenuItem } from "@material-ui/core";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
@@ -26,6 +25,7 @@ const ProductsList = () => {
   const [productos, setProductos] = useState([]);
   const [onDelete, setOnDelete] = useState(false);
   const classes = useStyles();
+  
   useEffect(() => {
     axios
       .get("https://buen-sabor-api.herokuapp.com/api/articulos/admin", {
@@ -50,6 +50,10 @@ const ProductsList = () => {
     {
       title: "¿Es Manufacturado?",
       field: "esManufacturado",
+      lookup: {
+        true: "Si",
+        false: "No"
+      },
       render: (rowData) =>
         rowData.esManufacturado === true ? (
           <Chip
@@ -59,16 +63,6 @@ const ProductsList = () => {
         ) : (
           <Chip label="NO" style={{ backgroundColor: "red", color: "white" }} />
         ),
-      editComponent: (props) => (
-        <Select
-          labelId="demo-simple-select-helper-label"
-          id="demo-simple-select-helper"
-          defaultValue={props.value}
-        >
-          <MenuItem value={true}>Si</MenuItem>
-          <MenuItem value={false}>No</MenuItem>
-        </Select>
-      ),
     },
     {
       title: "Imagen",
@@ -87,6 +81,7 @@ const ProductsList = () => {
             className={classes.input}
             id="contained-button-file"
             type="file"
+            onChange= {e => props.onChange(e.target.value)}
           />
           <label htmlFor="contained-button-file">
             <Button variant="contained" color="primary" component="span">
@@ -165,7 +160,6 @@ const ProductsList = () => {
                 icon: "delete",
                 tooltip: "Eliminar Producto",
                 onClick: (e, rowData) => onDeleteProducto(rowData._id),
-                //alert("presionaste " + rowData.denominacion),
               },
             ]}
             options={{ actionsColumnIndex: -1, exportButton: true }}
