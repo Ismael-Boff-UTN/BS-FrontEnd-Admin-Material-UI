@@ -5,11 +5,26 @@ import MaterialTable from "material-table";
 import Chip from "@material-ui/core/Chip/Chip";
 import swal from "sweetalert2";
 import AddNewCategoria from "./AddNewCategoria";
+import Button from "@material-ui/core/Button";
+import CloudUploadIcon from "@material-ui/icons/CloudUpload";
+import { makeStyles } from "@material-ui/core/styles";
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    "& > *": {
+      margin: theme.spacing(1),
+    },
+  },
+  input: {
+    display: "none",
+  },
+}));
 
 const CategoriasList = () => {
   const token = localStorage.getItem("token");
   const [categorias, setCategorias] = useState([]);
   const [onDelete, setOnDelete] = useState(false);
+  const classes = useStyles();
 
   const onDeleteCategoria = useCallback(
     (id) => {
@@ -69,8 +84,24 @@ const CategoriasList = () => {
         <img
           src={rowData.img}
           style={{ width: 50, borderRadius: "20%" }}
-          alt="cat"
+          alt="product"
         />
+      ),
+      editComponent: (props) => (
+        <div className={classes.root}>
+          <input
+            accept="image/*"
+            className={classes.input}
+            id="contained-button-file"
+            type="file"
+          />
+          <label htmlFor="contained-button-file">
+            <Button variant="contained" color="primary" component="span">
+              <CloudUploadIcon />
+              &nbsp;&nbsp; Subir
+            </Button>
+          </label>
+        </div>
       ),
     },
     {

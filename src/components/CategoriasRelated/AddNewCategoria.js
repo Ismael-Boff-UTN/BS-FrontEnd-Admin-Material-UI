@@ -11,6 +11,7 @@ import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
 import { green } from "@material-ui/core/colors";
 import axios from "axios";
+import swal from "sweetalert2";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -37,10 +38,22 @@ const useStyles = makeStyles((theme) => ({
 const AddNewCategoria = () => {
   const [open, setOpen] = React.useState(false);
   const [categoria, setCategoria] = React.useState({
-    nombre: "",
+    nombre: Text,
     img: "",
     estado: "",
   });
+
+  const img64 = (archivo) =>{
+    let reader = new FileReader();
+    let file = archivo.target.files[0];
+    reader.readAsDataURL(file);
+    reader.onload = function(){
+      setCategoria({
+        ...categoria,
+        img: reader.result
+      });
+    }
+  }
 
   const classes = useStyles();
   const token = localStorage.getItem("token");
@@ -61,11 +74,11 @@ const AddNewCategoria = () => {
   };
   const onSubmit = (e) => {
     e.preventDefault();
+    document.getElementById("submitBtn").disabled = true;
 
     if (
       categoria.nombre === "" ||
-      categoria.img === "" ||
-      categoria.estado === "" 
+      categoria.img === "" 
     ) {
       alert("Campos Vacios");
     }
@@ -83,6 +96,9 @@ const AddNewCategoria = () => {
       .then((res) => {
         console.log(res);
         console.log(res.data);
+        handleClose();
+        document.getElementById("submitBtn").disabled = false;
+        swal.fire("", `${res.data.msg}`, "success");
       })
       .catch((err)=>{
         console.log(`ERROR while posting to categories: ${err}`);
@@ -132,15 +148,16 @@ const AddNewCategoria = () => {
               id="outlined-basic2"
               label="Imagen"
               variant="outlined"
-              onChange={onChange}
+              onChange={img64}
               name="img"
-              type="text"
               required={true}
+              type="file"
             />
           </form>
         </DialogContent>
         <DialogActions>
           <Button
+            id="submitBtn"
             type="submit"
             onClick={onSubmit}
             color="primary"
