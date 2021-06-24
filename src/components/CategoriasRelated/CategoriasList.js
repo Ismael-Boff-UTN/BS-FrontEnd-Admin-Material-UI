@@ -1,12 +1,43 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import { BlockLoading } from "react-loadingg";
 import MaterialTable from "material-table";
 import Chip from "@material-ui/core/Chip/Chip";
+import swal from "sweetalert2";
+import AddNewCategoria from "./AddNewCategoria";
 
 const CategoriasList = () => {
   const token = localStorage.getItem("token");
   const [categorias, setCategorias] = useState([]);
+  const [onDelete, setOnDelete] = useState(false);
+
+  const onDeleteCategoria = useCallback(
+    (id) => {
+      axios
+        .delete(`https://buen-sabor-api.herokuapp.com/api/categorias/${id}`, {
+          headers: {
+            "x-token": token,
+          },
+        })
+        .then((response) => {
+          // Obtenemos los datos
+
+          console.log(response.data.msg);
+          swal.fire("", `${response.data.msg}`, "success");
+
+          if (onDelete === false) {
+            setOnDelete(true);
+          } else {
+            setOnDelete(false);
+          }
+        })
+        .catch((e) => {
+          // Capturamos los errores
+          console.log(e);
+        });
+    },
+    [token, onDelete]
+  );
 
   useEffect(() => {
     axios
@@ -24,7 +55,7 @@ const CategoriasList = () => {
         // Capturamos los errores
         console.log(e);
       });
-  }, [token]);
+  }, [token, onDelete]);
 
   const cols = [
     {
@@ -72,23 +103,47 @@ const CategoriasList = () => {
             title="Listado De Categorias"
             actions={[
               {
-                icon: "edit",
-                tooltip: "Editar Categoria",
-                onClick: (e, rowData) =>
-                  alert("presionaste " + rowData.denominacion),
-              },
-              {
                 icon: "delete",
                 tooltip: "Eliminar Categoria",
-                onClick: (e, rowData) =>
-                  alert("presionaste " + rowData.denominacion),
+                onClick: (e, rowData) => onDeleteCategoria(rowData._id),
               },
             ]}
             options={{ actionsColumnIndex: -1, exportButton: true }}
             localization={{ header: { actions: "Acciones" } }}
+            editable={{
+              onRowUpdate: async (newData, oldData) => {
+                const dataUpdate = [...categorias];
+                const index = oldData.tableData.id;
+                dataUpdate[index] = newData;
+
+                await axios.put(
+                  `https://buen-sabor-api.herokuapp.com/api/categorias/${oldData._id}`,
+                  newData,
+                  {
+                    headers: {
+                      "x-token": token,
+                    },
+                  }
+                )
+                .then((response) => {
+                  // Obtenemos los datos
+                  swal.fire("Actualizado!",`${response.data.msg}`,"success");
+                  if (onDelete === false) {
+                    setOnDelete(true);
+                  } else {
+                    setOnDelete(false);
+                  }
+                })
+                .catch((e) => {
+                  // Capturamos los errores
+                  console.log(e);
+                });
+              }
+            }}
           />
         </>
       )}
+      <AddNewCategoria/>
     </div>
   );
 };
