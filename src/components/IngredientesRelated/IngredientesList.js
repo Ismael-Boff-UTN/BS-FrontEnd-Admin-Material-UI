@@ -6,6 +6,7 @@ import swal from "sweetalert2";
 import Chip from "@material-ui/core/Chip";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
+import AddNewIngrediente from "./AddNewIngrediente";
 
 const IngredientesList = () => {
   const token = localStorage.getItem("token");
@@ -175,6 +176,7 @@ const IngredientesList = () => {
                 },
               }}
             />
+            <AddNewIngrediente />
           </div>
         </>
       )}
