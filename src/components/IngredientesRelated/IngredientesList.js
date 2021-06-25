@@ -4,8 +4,6 @@ import { BlockLoading } from "react-loadingg";
 import MaterialTable from "material-table";
 import swal from "sweetalert2";
 import Chip from "@material-ui/core/Chip";
-import Select from "@material-ui/core/Select";
-import MenuItem from "@material-ui/core/MenuItem";
 import AddNewIngrediente from "./AddNewIngrediente";
 
 const IngredientesList = () => {
@@ -83,18 +81,13 @@ const IngredientesList = () => {
     {
       title: "Unidad Medida",
       field: "unidadMedida",
-      editComponent: (props) => (
-        <Select
-          labelId="demo-simple-select-helper-label"
-          id="demo-simple-select-helper"
-          value={10}
-        >
-          <MenuItem value={0}>kg</MenuItem>
-          <MenuItem value={10}>gr</MenuItem>
-          <MenuItem value={20}>ml</MenuItem>
-          <MenuItem value={30}>unidad</MenuItem>
-        </Select>
-      ),
+      lookup: {
+        gr: "Gramos",
+        kg: "Kilos",
+        unidad: "Unidad",
+        ml: "Mililitros",
+        pz: "Pieza",
+      },
     },
     {
       title: "Estado",
