@@ -15,8 +15,8 @@ import axios from "axios";
 import swal from "sweetalert2";
 import SaveIcon from "@material-ui/icons/Save";
 import CloseIcon from "@material-ui/icons/Close";
-import AppBar from "@material-ui/core/AppBar";
-import ToolBar from "@material-ui/core/ToolBar";
+import { AppBar } from '@material-ui/core';
+import { Toolbar } from '@material-ui/core';
 import Container from "@material-ui/core/Container/Container";
 import Slide from "@material-ui/core/Slide";
 import { Alert, AlertTitle } from "@material-ui/lab";
@@ -155,7 +155,7 @@ const AddNewIngrediente = () => {
       >
         <DialogTitle id="form-dialog-title" className={classes.dialogTitle}>
           <AppBar position="absolute" className={classes.dialogBar}>
-            <ToolBar>Creacion De Nuevo Ingrediente</ToolBar>
+            <Toolbar>Creacion De Nuevo Ingrediente</Toolbar>
           </AppBar>
         </DialogTitle>
         {error ? (
