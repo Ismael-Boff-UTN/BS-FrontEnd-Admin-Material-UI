@@ -117,7 +117,7 @@ const AddNewIngrediente = () => {
       setError(false);
       axios
         .post(
-          "https://buen-sabor-api.herokuapp.com/api/ingredientes",
+          `${process.env.REACT_APP_BASE_API_URL}/ingredientes`,
           ingrediente,
           {
             headers: {

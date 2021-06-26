@@ -14,7 +14,7 @@ const IngredientesList = () => {
   const onDeleteIngrediente = useCallback(
     (id) => {
       axios
-        .delete(`https://buen-sabor-api.herokuapp.com/api/ingredientes/${id}`, {
+        .delete(`${process.env.REACT_APP_BASE_API_URL}/ingredientes/${id}`, {
           headers: {
             "x-token": token,
           },
@@ -41,7 +41,7 @@ const IngredientesList = () => {
 
   useEffect(() => {
     axios
-      .get("https://buen-sabor-api.herokuapp.com/api/ingredientes")
+      .get(`${process.env.REACT_APP_BASE_API_URL}/ingredientes`)
       .then((response) => {
         // Obtenemos los datos
 
@@ -145,7 +145,7 @@ const IngredientesList = () => {
 
                   await axios
                     .put(
-                      `https://buen-sabor-api.herokuapp.com/api/ingredientes/${oldData._id}`,
+                      `${process.env.REACT_APP_BASE_API_URL}/ingredientes/${oldData._id}`,
                       newData,
                       {
                         headers: {

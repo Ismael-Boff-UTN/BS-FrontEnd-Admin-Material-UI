@@ -10,7 +10,6 @@ export const startLogin = (email, password) => {
       "POST"
     );
     const body = await response.json();
-    console.log(body);
 
     if (body.msg === "Login OK") {
       localStorage.setItem("token", body.token);
@@ -36,7 +35,7 @@ export const startLoginGoogle = (id_token) => {
     const body = await response.json();
     //console.log(body);
 
-    if (body.msg === 'Google OK') {
+    if (body.msg === "Google OK") {
       localStorage.setItem("tokenGoogle", body.token);
       localStorage.setItem("tokenGoogle-init-date", new Date().getTime());
 
