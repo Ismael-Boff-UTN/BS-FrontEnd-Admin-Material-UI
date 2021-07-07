@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
-import { BlockLoading } from "react-loadingg";
 import MaterialTable from "material-table";
 import swal from "sweetalert2";
 import Chip from "@material-ui/core/Chip";
@@ -109,71 +108,63 @@ const IngredientesList = () => {
   ];
 
   return (
-    <div>
-      {ingredientes.length === 0 || null ? (
-        <BlockLoading size="large" />
-      ) : (
-        <>
-          <div className="mt-3">
-            <MaterialTable
-              columns={cols}
-              data={ingredientes}
-              title="Listado Ingredientes"
-              actions={[
-                {
-                  icon: "delete",
-                  tooltip: "Eliminar Ingrediente",
-                  onClick: (e, rowData) => onDeleteIngrediente(rowData._id),
-                },
-              ]}
-              options={{ actionsColumnIndex: -1, exportButton: true }}
-              localization={{
-                header: { actions: "Acciones" },
-                toolbar: {
-                  searchTooltip: "Buscar",
-                  searchPlaceholder: "Buscar",
-                },
-                body: {
-                  emptyDataSourceMessage: "No Se Encontraron Ingredientes",
-                },
-              }}
-              editable={{
-                onRowUpdate: async (newData, oldData) => {
-                  const dataUpdate = [...ingredientes];
-                  const index = oldData.tableData.id;
-                  dataUpdate[index] = newData;
+    <>
+      <MaterialTable
+        columns={cols}
+        data={ingredientes}
+        title="Listado Ingredientes"
+        actions={[
+          {
+            icon: "delete",
+            tooltip: "Eliminar Ingrediente",
+            onClick: (e, rowData) => onDeleteIngrediente(rowData._id),
+          },
+        ]}
+        options={{ actionsColumnIndex: -1, exportButton: true }}
+        localization={{
+          header: { actions: "Acciones" },
+          toolbar: {
+            searchTooltip: "Buscar",
+            searchPlaceholder: "Buscar",
+          },
+          body: {
+            emptyDataSourceMessage: "No Se Encontraron Ingredientes",
+          },
+        }}
+        editable={{
+          onRowUpdate: async (newData, oldData) => {
+            const dataUpdate = [...ingredientes];
+            const index = oldData.tableData.id;
+            dataUpdate[index] = newData;
 
-                  await axios
-                    .put(
-                      `${process.env.REACT_APP_BASE_API_URL}/ingredientes/${oldData._id}`,
-                      newData,
-                      {
-                        headers: {
-                          "x-token": token,
-                        },
-                      }
-                    )
-                    .then((response) => {
-                      // Obtenemos los datos
-                      swal.fire("OK!", `${response.data.msg}`, "success");
-                      if (onDelete === false) {
-                        setOnDelete(true);
-                      } else {
-                        setOnDelete(false);
-                      }
-                    })
-                    .catch((e) => {
-                      // Capturamos los errores
-                      console.log(e);
-                    });
-                },
-              }}
-            />
-            <AddNewIngrediente />
-          </div>
-        </>
-      )}
-    </div>
+            await axios
+              .put(
+                `${process.env.REACT_APP_BASE_API_URL}/ingredientes/${oldData._id}`,
+                newData,
+                {
+                  headers: {
+                    "x-token": token,
+                  },
+                }
+              )
+              .then((response) => {
+                // Obtenemos los datos
+                swal.fire("OK!", `${response.data.msg}`, "success");
+                if (onDelete === false) {
+                  setOnDelete(true);
+                } else {
+                  setOnDelete(false);
+                }
+              })
+              .catch((e) => {
+                // Capturamos los errores
+                console.log(e);
+              });
+          },
+        }}
+      />
+      <AddNewIngrediente />
+    </>
   );
 };
 

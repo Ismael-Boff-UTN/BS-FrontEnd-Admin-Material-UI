@@ -128,6 +128,7 @@ const AddNewIngrediente = () => {
         .then((res) => {
           setLoading(false);
           handleClose();
+          
           swal.fire("", `${res.data.msg}`, "success");
         });
     }

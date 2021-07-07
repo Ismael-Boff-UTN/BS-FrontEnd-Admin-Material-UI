@@ -184,7 +184,7 @@ export default function NavBar() {
             </IconButton>
           </div>
         </Toolbar>
-        <Paper>
+        <Paper elevation={0}>
           <Tabs
             value={
               history.location.pathname !== "/"
