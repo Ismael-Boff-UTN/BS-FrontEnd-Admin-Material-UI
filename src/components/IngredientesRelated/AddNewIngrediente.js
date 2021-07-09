@@ -15,11 +15,11 @@ import axios from "axios";
 import swal from "sweetalert2";
 import SaveIcon from "@material-ui/icons/Save";
 import CloseIcon from "@material-ui/icons/Close";
-import { AppBar } from '@material-ui/core';
-import { Toolbar } from '@material-ui/core';
-import Container from "@material-ui/core/Container/Container";
+import { AppBar } from "@material-ui/core";
+import { Toolbar } from "@material-ui/core";
 import Slide from "@material-ui/core/Slide";
 import { Alert, AlertTitle } from "@material-ui/lab";
+import Grid from "@material-ui/core/Grid";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -128,7 +128,7 @@ const AddNewIngrediente = () => {
         .then((res) => {
           setLoading(false);
           handleClose();
-          
+
           swal.fire("", `${res.data.msg}`, "success");
         });
     }
@@ -168,68 +168,89 @@ const AddNewIngrediente = () => {
           <></>
         )}
         <DialogContent>
-          <Container>
-            <form className={classes.root}>
-              <TextField
-                id="outlined-basic"
-                label="Nombre"
-                variant="outlined"
-                onChange={onChange}
-                name="denominacion"
-                required="true"
-              />
-              <TextField
-                id="outlined-basic2"
-                label="Precio Compra"
-                variant="outlined"
-                onChange={onChange}
-                name="precioCompra"
-                type="number"
-                required="true"
-              />
-              <TextField
-                id="outlined-basic3"
-                label="Precio Venta"
-                variant="outlined"
-                onChange={onChange}
-                name="precioVenta"
-                type="number"
-                required="true"
-              />
-              <TextField
-                id="outlined-basic4"
-                label="Stock Actual"
-                variant="outlined"
-                onChange={onChange}
-                name="stockActual"
-                type="number"
-                required="true"
-              />
-              <TextField
-                id="outlined-basic5"
-                label="Stock Minimo"
-                variant="outlined"
-                onChange={onChange}
-                name="stockMinimo"
-                type="number"
-                required="true"
-              />
-              <Select
-                labelId="demo-simple-select-outlined-label"
-                id="demo-simple-select-outlined"
-                value={ingrediente.unidadMedida}
-                label="Unidad Medida"
-                variant="outlined"
-                onChange={onChange}
-                name="unidadMedida"
-                required="true"
-              >
-                <MenuItem value={"gr"}>Gramos</MenuItem>
-                <MenuItem value={"kg"}>Kilos</MenuItem>
-                <MenuItem value={"unidad"}>Unidad</MenuItem>
-              </Select>
-            </form>
-          </Container>
+          <form>
+            <Grid container spacing={2}>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  id="outlined-basic"
+                  label="Nombre"
+                  variant="outlined"
+                  onChange={onChange}
+                  name="denominacion"
+                  required="true"
+                  fullWidth
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  id="outlined-basic2"
+                  label="Precio Compra"
+                  variant="outlined"
+                  onChange={onChange}
+                  name="precioCompra"
+                  type="number"
+                  required="true"
+                  fullWidth
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  id="outlined-basic3"
+                  label="Precio Venta"
+                  variant="outlined"
+                  onChange={onChange}
+                  name="precioVenta"
+                  type="number"
+                  required="true"
+                  fullWidth
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  id="outlined-basic4"
+                  label="Stock Actual"
+                  variant="outlined"
+                  onChange={onChange}
+                  name="stockActual"
+                  type="number"
+                  required="true"
+                  fullWidth
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  id="outlined-basic5"
+                  label="Stock Minimo"
+                  variant="outlined"
+                  onChange={onChange}
+                  name="stockMinimo"
+                  type="number"
+                  required="true"
+                  fullWidth
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <Select
+                  labelId="demo-simple-select-outlined-label"
+                  id="demo-simple-select-outlined"
+                  value={ingrediente.unidadMedida}
+                  label="Unidad Medida"
+                  variant="outlined"
+                  onChange={onChange}
+                  name="unidadMedida"
+                  required="true"
+                  fullWidth
+                >
+                  <MenuItem value={ingrediente.unidadMedida} disabled>
+                    Unidad Medida
+                  </MenuItem>
+                  <MenuItem value={"gr"}>Gramos</MenuItem>
+                  <MenuItem value={"kg"}>Kilos</MenuItem>
+                  <MenuItem value={"unidad"}>Unidad</MenuItem>
+                </Select>
+              </Grid>
+            </Grid>
+          </form>
         </DialogContent>
         <DialogActions>
           <Button

@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { green } from "@material-ui/core/colors";
 import AddIcon from "@material-ui/icons/Add";
 import axios from "axios";
 import swal from "sweetalert2";
 import {
-  Select, 
+  Select,
   MenuItem,
   Button,
   TextField,
@@ -15,8 +15,15 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
-  FormHelperText
 } from "@material-ui/core";
+import Checkbox from "@material-ui/core/Checkbox";
+import Grid from "@material-ui/core/Grid";
+import CloudUploadIcon from "@material-ui/icons/CloudUpload";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import { AppBar } from "@material-ui/core";
+import { Toolbar } from "@material-ui/core";
+
+import List from "./List";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -38,21 +45,58 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: green[600],
     },
   },
+  input: {
+    display: "none",
+  },
+  btnImg: {
+    borderRadius: 20,
+  },
+  dialogBar: {
+    background: "#f52f41",
+  },
 }));
 
 const AddNewProducto = () => {
   const [open, setOpen] = React.useState(false);
+  const [checked, setChecked] = React.useState(true);
+
   const [producto, setProducto] = React.useState({
     denominacion: Text,
-    precioVenta: Number,
     tiempoEstimadoCocina: Number,
     imagen: "",
-    //estado: false,
-    esManufacturado: Boolean
+    esManufacturado: Boolean,
+    categoria: Text,
   });
+  const [ingredientes, setIngredientes] = useState([]);
+  const [categorias, setCategorias] = useState([]);
 
   const classes = useStyles();
   const token = localStorage.getItem("token");
+
+  useEffect(() => {
+    axios
+      .get(`${process.env.REACT_APP_BASE_API_URL}/ingredientes`)
+      .then((response) => {
+        // Obtenemos los datos
+
+        setIngredientes(response.data.ingredientes);
+      })
+      .catch((e) => {
+        // Capturamos los errores
+        console.log(e);
+      });
+    axios
+      .get(`${process.env.REACT_APP_BASE_API_URL}/categorias`)
+      .then((response) => {
+        // Obtenemos los datos
+
+        setCategorias(response.data.categorias);
+      })
+      .catch((e) => {
+        // Capturamos los errores
+        console.log(e);
+      });
+  }, []);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -61,11 +105,18 @@ const AddNewProducto = () => {
   const handleClose = () => {
     setOpen(false);
   };
+  const handleChange = (e) => {
+    setChecked({ ...checked, [e.target.name]: e.target.checked });
+    setProducto({
+      ...producto,
+      [e.target.name]: e.target.checked,
+    });
+  };
 
   const onChange = (e) => {
     setProducto({
       ...producto,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
   const onSubmit = (e) => {
@@ -80,39 +131,36 @@ const AddNewProducto = () => {
     ) {
       alert("Campos Vacios");
     }
-    
+
     axios
-      .post
-      ("https://buen-sabor-api.herokuapp.com/api/articulos",producto,
-        {
-          headers: {
-            "x-token": token,
-          },
-        }
-      )
+      .post("https://buen-sabor-api.herokuapp.com/api/articulos", producto, {
+        headers: {
+          "x-token": token,
+        },
+      })
       .then((res) => {
         //console.log(res);
         console.log(res.data);
         handleClose();
         swal.fire("", `${res.data.msg}`, "success");
       })
-      .catch((e)=>{
+      .catch((e) => {
         console.log(e);
       });
   };
 
   //Funcion para convertir imagen a Base64
-  const img64 = (archivo) =>{
+  const img64 = (archivo) => {
     let reader = new FileReader();
     let file = archivo.target.files[0];
     reader.readAsDataURL(file);
-    reader.onload = function(){
+    reader.onload = function () {
       setProducto({
         ...producto,
-        imagen: reader.result
+        imagen: reader.result,
       });
-    }
-  }
+    };
+  };
 
   return (
     <>
@@ -130,65 +178,119 @@ const AddNewProducto = () => {
         open={open}
         onClose={handleClose}
         aria-labelledby="form-dialog-title"
-        fullScreen
+        //fullScreen
       >
         <DialogTitle id="form-dialog-title">
-          Creacion de nuevo producto
+          <AppBar position="absolute" className={classes.dialogBar}>
+            <Toolbar>Creacion De Nuevo Producto</Toolbar>
+          </AppBar>
         </DialogTitle>
         <DialogContent className="container">
           <DialogContentText>
             Ingrese los datos del producto a agregar
           </DialogContentText>
-          <form className={classes.root}>
-            <TextField
-              id="outlined-basic"
-              label="Nombre"
-              variant="outlined"
-              onChange={onChange}
-              name="denominacion"
-              required="true"
-            />
-            < TextField
-            id = "outlined-basic"
-            label = "Precio"
-            variant = "outlined"
-            onChange = {onChange}
-            name = "precioVenta"
-            required = "true"
-            type="number"
-            />
-            < TextField
-            id = "outlined-basic"
-            label = "Tiempo de cocina (minutos)"
-            variant = "outlined"
-            onChange = {onChange}
-            name = "tiempoEstimadoCocina"
-            required = "true"
-            type = "number" 
-            />
-            <FormHelperText>¿Es manufacturado?</FormHelperText>
-           <Select
-              //labelId = "demo-simple-select-outlined-label"
-              id = "demo-simple-select-outlined-label"
-              name = "esManufacturado" 
-              label = "¿Es manufacturado?"
-              //value={producto.esManofacturado}
-              variant = "outlined"
-              onChange={onChange}
-              required="true"
-            >
-            <MenuItem value={true}>Si</MenuItem>
-            <MenuItem value={false}>No</MenuItem>
-            </Select>
-            <TextField
-            id = "outlined-basic"
-            label = "Imagen"
-            variant = "outlined"
-            onChange = {img64}
-            name = "imagen"
-            required = "true"
-            type = "file" 
-            />
+          <form className={classes.form} noValidate>
+            <Grid container spacing={2}>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  autoComplete="fname"
+                  name="denominacion"
+                  variant="outlined"
+                  required
+                  fullWidth
+                  id="denominacion"
+                  label="Denominacion Articulo"
+                  onChange={onChange}
+                  autoFocus
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  variant="outlined"
+                  required
+                  fullWidth
+                  id="tiempoEstimadoCocina"
+                  label="Tiempo Preparación (min)"
+                  name="tiempoEstimadoCocina"
+                  autoComplete="lname"
+                  type="number"
+                  onChange={onChange}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <Select
+                  labelId="demo-simple-select-outlined-label"
+                  id="demo-simple-select-outlined"
+                  value={producto.categoria}
+                  label="Categoria"
+                  variant="outlined"
+                  onChange={onChange}
+                  name="categoria"
+                  required="true"
+                  fullWidth
+                >
+                  <MenuItem value={producto.categoria} disabled>
+                    Categoria
+                  </MenuItem>
+                  {categorias?.map((cat) => (
+                    <MenuItem value={cat.nombre}>{cat.nombre}</MenuItem>
+                  ))}
+                </Select>
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <input
+                  accept="image/*"
+                  className={classes.input}
+                  id="contained-button-file"
+                  multiple
+                  type="file"
+                  onChange={img64}
+                />
+                <label htmlFor="contained-button-file">
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    component="span"
+                    startIcon={<CloudUploadIcon />}
+                    size="large"
+                    fullWidth
+                    className={classes.btnImagen}
+                  >
+                    Subir Imagen
+                  </Button>
+                </label>
+              </Grid>
+              <Grid item xs={12}>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={checked.esManufacturado}
+                      onChange={handleChange}
+                      name="esManufacturado"
+                    />
+                  }
+                  label="Es Manufacturado"
+                />
+                <List
+                  ingredientes={ingredientes}
+                  stateProductos={setProducto}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  disabled={checked}
+                  variant="outlined"
+                  required
+                  fullWidth
+                  id="precioVenta"
+                  label="Precio Venta"
+                  name="precioVenta"
+                  autoComplete="lname"
+                  type="number"
+                  onChange={onChange}
+                />
+              </Grid>
+            </Grid>
           </form>
         </DialogContent>
         <DialogActions>

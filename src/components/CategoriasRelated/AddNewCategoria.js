@@ -12,6 +12,8 @@ import AddIcon from "@material-ui/icons/Add";
 import { green } from "@material-ui/core/colors";
 import axios from "axios";
 import swal from "sweetalert2";
+import Grid from "@material-ui/core/Grid";
+import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -33,6 +35,9 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: green[600],
     },
   },
+  input: {
+    display: "none",
+  },
 }));
 
 const AddNewCategoria = () => {
@@ -43,17 +48,17 @@ const AddNewCategoria = () => {
     estado: "",
   });
 
-  const img64 = (archivo) =>{
+  const img64 = (archivo) => {
     let reader = new FileReader();
     let file = archivo.target.files[0];
     reader.readAsDataURL(file);
-    reader.onload = function(){
+    reader.onload = function () {
       setCategoria({
         ...categoria,
-        img: reader.result
+        img: reader.result,
       });
-    }
-  }
+    };
+  };
 
   const classes = useStyles();
   const token = localStorage.getItem("token");
@@ -76,23 +81,16 @@ const AddNewCategoria = () => {
     e.preventDefault();
     document.getElementById("submitBtn").disabled = true;
 
-    if (
-      categoria.nombre === "" ||
-      categoria.img === "" 
-    ) {
+    if (categoria.nombre === "" || categoria.img === "") {
       alert("Campos Vacios");
     }
 
     axios
-      .post(
-        "https://buen-sabor-api.herokuapp.com/api/categorias",
-        categoria,
-        {
-          headers: {
-            "x-token": token,
-          },
-        }
-      )
+      .post("https://buen-sabor-api.herokuapp.com/api/categorias", categoria, {
+        headers: {
+          "x-token": token,
+        },
+      })
       .then((res) => {
         console.log(res);
         console.log(res.data);
@@ -100,9 +98,9 @@ const AddNewCategoria = () => {
         document.getElementById("submitBtn").disabled = false;
         swal.fire("", `${res.data.msg}`, "success");
       })
-      .catch((err)=>{
+      .catch((err) => {
         console.log(`ERROR while posting to categories: ${err}`);
-      })
+      });
 
     //console.log(producto);
     //history.push("/");
@@ -134,25 +132,45 @@ const AddNewCategoria = () => {
           <DialogContentText>
             Por favor llene todos los campos requeridos.
           </DialogContentText>
-          <form className={classes.root}>
-            <TextField
-              id="outlined-basic"
-              label="Nombre"
-              variant="outlined"
-              onChange={onChange}
-              name="nombre"
-              type="text"
-              required={true}
-            />
-            <TextField
-              id="outlined-basic2"
-              label="Imagen"
-              variant="outlined"
-              onChange={img64}
-              name="img"
-              required={true}
-              type="file"
-            />
+          <form>
+            <Grid container spacing={2}>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  id="outlined-basic"
+                  label="Nombre"
+                  variant="outlined"
+                  onChange={onChange}
+                  name="nombre"
+                  type="text"
+                  required={true}
+                  fullWidth
+                />
+              </Grid>
+
+              <Grid item xs={12} sm={6}>
+                <input
+                  accept="image/*"
+                  className={classes.input}
+                  id="contained-button-file"
+                  multiple
+                  type="file"
+                  onChange={img64}
+                />
+                <label htmlFor="contained-button-file">
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    component="span"
+                    startIcon={<CloudUploadIcon />}
+                    size="large"
+                    fullWidth
+                    className={classes.btnImagen}
+                  >
+                    Subir Imagen
+                  </Button>
+                </label>
+              </Grid>
+            </Grid>
           </form>
         </DialogContent>
         <DialogActions>

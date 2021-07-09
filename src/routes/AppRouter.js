@@ -33,7 +33,7 @@ export const AppRouter = () => {
 
           <PrivateRoute component={DashboardRoutes} isAuthenticated={!!uid} />
         </Switch>
-        <Redirect path="/" />
+        <Redirect to="/" />
       </div>
     </Router>
   );
