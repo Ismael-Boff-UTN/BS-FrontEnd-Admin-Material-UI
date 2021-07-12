@@ -18,8 +18,8 @@ import CloseIcon from "@material-ui/icons/Close";
 import { AppBar } from "@material-ui/core";
 import { Toolbar } from "@material-ui/core";
 import Slide from "@material-ui/core/Slide";
-import { Alert, AlertTitle } from "@material-ui/lab";
 import Grid from "@material-ui/core/Grid";
+import Alert from "../Alert/Alert";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -111,6 +111,7 @@ const AddNewIngrediente = () => {
       ingrediente.unidadMedida === ""
     ) {
       setError(true);
+
       return;
     } else {
       setLoading(true);
@@ -160,10 +161,7 @@ const AddNewIngrediente = () => {
           </AppBar>
         </DialogTitle>
         {error ? (
-          <Alert severity="warning">
-            <AlertTitle>Atención!</AlertTitle>
-            No Pueden Quedar Campos Vacios — <strong>Revisalos!</strong>
-          </Alert>
+          <Alert msg={"Campos Vacios"} tipo={"warning"}/>
         ) : (
           <></>
         )}
