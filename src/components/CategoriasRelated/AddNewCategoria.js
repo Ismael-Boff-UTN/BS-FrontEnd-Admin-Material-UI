@@ -86,7 +86,7 @@ const AddNewCategoria = () => {
     }
 
     axios
-      .post("https://buen-sabor-api.herokuapp.com/api/categorias", categoria, {
+      .post("http://localhost:4000/api/categorias", categoria, {
         headers: {
           "x-token": token,
         },

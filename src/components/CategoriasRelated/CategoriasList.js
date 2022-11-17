@@ -29,7 +29,7 @@ const CategoriasList = () => {
   const onDeleteCategoria = useCallback(
     (id) => {
       axios
-        .delete(`https://buen-sabor-api.herokuapp.com/api/categorias/${id}`, {
+        .delete(`http://localhost:4000/api/categorias/${id}`, {
           headers: {
             "x-token": token,
           },
@@ -56,7 +56,7 @@ const CategoriasList = () => {
 
   useEffect(() => {
     axios
-      .get("https://buen-sabor-api.herokuapp.com/api/categorias/admin", {
+      .get("http://localhost:4000/api/categorias/admin", {
         headers: {
           "x-token": token,
         },
@@ -148,7 +148,7 @@ const CategoriasList = () => {
                 dataUpdate[index] = newData;
 
                 await axios.put(
-                  `https://buen-sabor-api.herokuapp.com/api/categorias/${oldData._id}`,
+                  `http://localhost:4000/api/categorias/${oldData._id}`,
                   newData,
                   {
                     headers: {

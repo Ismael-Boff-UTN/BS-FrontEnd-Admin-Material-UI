@@ -20,7 +20,7 @@ export default function Orders() {
 
   useEffect(() => {
     axios
-      .get("https://buen-sabor-api.herokuapp.com/api/auditoria/ultimosPedidos")
+      .get("http://localhost:4000/api/auditoria/ultimosPedidos")
       .then((response) => {
         // Obtenemos los datos
 

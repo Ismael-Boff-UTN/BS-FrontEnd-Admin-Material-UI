@@ -9,7 +9,7 @@ const RolesList = () => {
 
   useEffect(() => {
     axios
-      .get("https://buen-sabor-api.herokuapp.com/api/roles", {
+      .get("http://localhost:4000/api/roles", {
         headers: {
           "x-token": token,
         },

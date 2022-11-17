@@ -23,7 +23,7 @@ export default function Deposits({ title }) {
   useEffect(() => {
     axios
       .get(
-        "https://buen-sabor-api.herokuapp.com/api/auditoria/recaudaciones?fechaInicial=2020-06-28&fechaFinal=2025-09-30"
+        "http://localhost:4000/api/auditoria/recaudaciones?fechaInicial=2020-06-28&fechaFinal=2025-09-30"
       )
       .then((response) => {
         // Obtenemos los datos
