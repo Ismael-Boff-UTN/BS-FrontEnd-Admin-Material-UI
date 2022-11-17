@@ -28,7 +28,7 @@ const ProductsList = () => {
   
   useEffect(() => {
     axios
-      .get("https://buen-sabor-api.herokuapp.com/api/articulos/admin", {
+      .get("http://localhost:4000/api/articulos/admin", {
         headers: {
           "x-token": token,
         },
@@ -123,7 +123,7 @@ const ProductsList = () => {
   const onDeleteProducto = useCallback(
     (id) => {
       axios
-        .delete(`https://buen-sabor-api.herokuapp.com/api/articulos/${id}`, {
+        .delete(`http://localhost:4000/api/articulos/${id}`, {
           headers: {
             "x-token": token,
           },
@@ -172,7 +172,7 @@ const ProductsList = () => {
 
                 await axios
                   .put(
-                    `https://buen-sabor-api.herokuapp.com/api/articulos/${oldData._id}`,
+                    `http://localhost:4000/api/articulos/${oldData._id}`,
                     newData,
                     {
                       headers: {

@@ -133,7 +133,7 @@ const AddNewProducto = () => {
     }
 
     axios
-      .post("https://buen-sabor-api.herokuapp.com/api/articulos", producto, {
+      .post("http://localhost:4000/api/articulos", producto, {
         headers: {
           "x-token": token,
         },

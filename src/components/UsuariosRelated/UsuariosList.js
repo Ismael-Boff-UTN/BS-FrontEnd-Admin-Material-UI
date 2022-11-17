@@ -10,7 +10,7 @@ const UsuariosList = () => {
 
   useEffect(() => {
     axios
-      .get("https://buen-sabor-api.herokuapp.com/api/usuarios", {
+      .get("http://localhost:4000/api/usuarios", {
         headers: {
           "x-token": token,
         },
