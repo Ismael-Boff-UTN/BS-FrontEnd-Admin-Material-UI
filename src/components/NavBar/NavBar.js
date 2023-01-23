@@ -81,7 +81,7 @@ export default function NavBar() {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
-  const { nombre, apellido, img } = useSelector((state) => state.auth.resto);
+  const { nombre, apellido, img, rol} = useSelector((state) => state.auth.resto);
 
   const dispatch = useDispatch();
   const handleLogout = () => {
@@ -184,7 +184,7 @@ export default function NavBar() {
             </IconButton>
           </div>
         </Toolbar>
-        <Paper elevation={0}>
+        <Paper elevation={0} >
           <Tabs
             value={
               history.location.pathname !== "/"
@@ -238,6 +238,34 @@ export default function NavBar() {
               component={RouterLink}
               to="/roles-list"
               value="/roles-list"
+            />
+            <Tab
+              icon={<FastfoodIcon />}
+              label="Caja Admision"
+              component={RouterLink}
+              to="/caja-adm-list"
+              value="/caja-adm-list"
+            />
+            <Tab
+              icon={<FastfoodIcon />}
+              label="Cocinero"
+              component={RouterLink}
+              to="/cocinero-list"
+              value="/cocinero-list"
+            />
+            <Tab
+              icon={<FastfoodIcon />}
+              label="Caja Facturacion"
+              component={RouterLink}
+              to="/caja-fact-list"
+              value="/caja-fact-list"
+            />
+            <Tab
+              icon={<FastfoodIcon/>}
+              label="Delivery"
+              component={RouterLink}
+              to="/delivery-list"
+              value="/delivery-list"
             />
           </Tabs>
         </Paper>

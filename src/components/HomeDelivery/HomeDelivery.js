@@ -6,21 +6,20 @@ import Chip from "@material-ui/core/Chip/Chip";
 import { Typography } from "@material-ui/core";
 import swal from "sweetalert2";
 
-const HomeCocinero = () => {
+const HomeDelivery = () => {
   const token = localStorage.getItem("token");
-  const [usuarios, setUsuarios] = useState([]);
   const [pedidos, setPedidos] = useState([]);
 
   useEffect(() => {
     axios
-      .get("http://localhost:4000/api/pedidos/cocinero", {
+      .get("http://localhost:4000/api/pedidos/delivery", {
         headers: {
           "x-token": token,
         },
       })
       .then((response) => {
         // Obtenemos los datos
-        setPedidos(response.data.pedidosCoci);
+        setPedidos(response.data.pedidosDeli);
       })
       .catch((e) => {
         // Capturamos los errores
@@ -56,16 +55,16 @@ const HomeCocinero = () => {
     {
       title: "Estado",
       field: "estado",
-      lookup: { "En preparacion": "En preparacion", "Preparado": "Preparado" },
+      lookup: { "Para retirar": "Para retirar", "Facturado": "Facturado" },
       render: (rowData) =>
-        rowData.estado === "En preparacion" ? (
+        rowData.estado === "Para retirar" ? (
           <Chip
-            label="En preparacion"
+            label="Para retirar"
             style={{ backgroundColor: "green", color: "white" }}
           />
         ) : (
           <Chip
-            label="Preparado"
+            label="Facturado"
             style={{ backgroundColor: "red", color: "white" }}
           />
         ),
@@ -144,4 +143,4 @@ const HomeCocinero = () => {
   );
 };
 
-export default HomeCocinero;
+export default HomeDelivery;

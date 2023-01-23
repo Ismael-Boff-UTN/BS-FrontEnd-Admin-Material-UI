@@ -12,6 +12,10 @@ import NavBar from "../components/NavBar/NavBar";
 import CategoriasList from "../components/CategoriasRelated/CategoriasList";
 import Home from "../components/Home/Home";
 import Footer from "../components/Footer/Footer";
+import Cocinero from "../components/HomeCocinero/HomeCocinero";
+import Delivery from "../components/HomeDelivery/HomeDelivery";
+import Caja from "../components/HomeCaja/HomeCaja";
+import CajaAdm from "../components/HomeCaja/HomeCajaAdmision";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -33,6 +37,10 @@ export const DashboardRoutes = () => {
           <Route exact path="/roles-list" component={RolesList} />
           <Route exact path="/categorias-list" component={CategoriasList} />
           <Route exact path="/home" component={Home} />
+          <Route exact path="/cocinero-list" component={Cocinero} />
+          <Route exact path="/delivery-list" component={Delivery} />
+          <Route exact path="/caja-fact-list" component={Caja} />
+          <Route exact path="/caja-adm-list" component={CajaAdm} />
         </Switch>
       </Container>
       <Footer />

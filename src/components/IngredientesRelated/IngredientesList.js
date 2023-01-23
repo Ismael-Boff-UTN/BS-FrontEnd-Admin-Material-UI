@@ -40,7 +40,11 @@ const IngredientesList = () => {
 
   useEffect(() => {
     axios
-      .get(`${process.env.REACT_APP_BASE_API_URL}/ingredientes`)
+      .get(`http://localhost:4000/api/ingredientes`, {
+        headers: {
+          "x-token": token,
+        },
+      })
       .then((response) => {
         // Obtenemos los datos
 
