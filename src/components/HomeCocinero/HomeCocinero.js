@@ -42,7 +42,7 @@ const HomeCocinero = () => {
       render: (rowData) =>
       rowData.detallesPedido.map((p) => (
         <>
-          <p>{p.denominacion}//Cantidad: {p.cantidad}</p>
+          <p>{p.articulo.denominacion}//Cantidad: {p.cantidad}</p>
         </>
       ))
     },
