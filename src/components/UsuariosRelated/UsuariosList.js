@@ -3,6 +3,7 @@ import axios from "axios";
 import { BlockLoading } from "react-loadingg";
 import MaterialTable from "material-table";
 import Chip from "@material-ui/core/Chip/Chip";
+import swal from "sweetalert2";
 
 const UsuariosList = () => {
   const token = localStorage.getItem("token");
@@ -51,6 +52,11 @@ const UsuariosList = () => {
       field: "email",
     },
     {
+      title: "Rol",
+      field: "rol",
+      lookup: { "ADMIN_ROLE": "ADMIN_ROLE", "COCINERO_ROLE": "COCINERO_ROLE", "DELIVERY_ROLE": "DELIVERY_ROLE", "COCINERO_ROLE": "COCINERO_ROLE", "CAJA_ROLE": "CAJA_ROLE" },
+    },
+    {
       title: "Estado",
       field: "estado",
       render: (rowData) =>
@@ -80,18 +86,36 @@ const UsuariosList = () => {
             title="Listado De Usuarios"
             actions={[
               {
-                icon: "edit",
-                tooltip: "Editar Usuario",
-                onClick: (e, rowData) =>
-                  alert("presionaste " + rowData.denominacion),
-              },
-              {
                 icon: "delete",
                 tooltip: "Eliminar Usuario",
                 onClick: (e, rowData) =>
                   alert("presionaste " + rowData.denominacion),
               },
             ]}
+            editable={{
+              onRowUpdate: async (newData, oldData) => {
+                const dataUpdate = [...usuarios];
+                const index = oldData.tableData.id;
+                dataUpdate[index] = newData;
+                console.log(oldData)
+                await axios
+                  .put(
+                    `http://localhost:4000/api/usuarios/${oldData.uid}`,
+                    newData,
+                    {
+                      headers: {
+                        "x-token": token,
+                      },
+                    }
+                  )
+                  .then((response) => {
+                    swal.fire("OK!", `${response.data.msg}`, "success");
+                  })
+                  .catch((e) => {
+                    console.log(e);
+                  });
+              },
+            }}
             options={{
               actionsColumnIndex: -1,
               exportButton: true,

@@ -47,6 +47,11 @@ const HomeCajaAdmision = () => {
       ))
     },
     {
+      title: "Tipo de envio",
+      field: "tipoEnvio",
+      editable: "never",
+    },
+    {
       title: "Domicilio",
       field: "domicilio",
       editable: "never",

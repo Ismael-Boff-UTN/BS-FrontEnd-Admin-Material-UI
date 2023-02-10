@@ -41,20 +41,6 @@ const RolesList = () => {
             columns={cols}
             data={roles}
             title="Listado De Roles"
-            actions={[
-              {
-                icon: "edit",
-                tooltip: "Editar Rol",
-                onClick: (e, rowData) =>
-                  alert("presionaste " + rowData.denominacion),
-              },
-              {
-                icon: "delete",
-                tooltip: "Eliminar Rol",
-                onClick: (e, rowData) =>
-                  alert("presionaste " + rowData.denominacion),
-              },
-            ]}
             options={{ actionsColumnIndex: -1, exportButton: true }}
             localization={{ header: { actions: "Acciones" } }}
           />

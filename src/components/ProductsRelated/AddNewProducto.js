@@ -66,12 +66,20 @@ const AddNewProducto = () => {
     imagen: "",
     esManufacturado: Boolean,
     categoria: Text,
+    precioVenta: Number,
+    articuluManufacturadoDetalle: {},
   });
+  const [aux, setAux] = useState([]);
+
   const [ingredientes, setIngredientes] = useState([]);
   const [categorias, setCategorias] = useState([]);
 
   const classes = useStyles();
   const token = localStorage.getItem("token");
+
+  useEffect(() => {
+    setProducto({...producto, articuluManufacturadoDetalle:aux});
+  }, [aux]);
 
   useEffect(() => {
     axios
@@ -117,7 +125,7 @@ const AddNewProducto = () => {
     setProducto({
       ...producto,
       [e.target.name]: e.target.value,
-    });
+    })
   };
   const onSubmit = (e) => {
     e.preventDefault();
@@ -162,8 +170,57 @@ const AddNewProducto = () => {
     };
   };
 
+  function verIngSelecionados(){
+    return <Grid> {aux?.map((ing) => (<p>{ing.ingredient.denominacion} {ing.cantidad}</p>))}</Grid>
+  }
+
+  function añadirIngrediente(){
+    if(producto.esManufacturado==true){
+      var a1;
+      var a2;
+      return <form >
+                <Select
+                  labelId="demo-simple-select-outlined-label"
+                  id="demo-simple-select-outlined"
+                  value={producto.articuluManufacturadoDetalle}
+                  label="Detalle"
+                  variant="outlined"
+                  name="detalle"
+                  onChange={e=>a1=e.target.value}
+                  fullWidth
+                  >
+                    <MenuItem value={producto.articuluManufacturadoDetalle} disabled>
+                      Ingrediente
+                    </MenuItem>
+                    {ingredientes?.map((ing) => (
+                      <MenuItem value={ing}>{ing.denominacion}</MenuItem>
+                      ))}
+                  </Select>
+                  <TextField
+                  variant="outlined"
+                  fullWidth
+                  id="cantidad"
+                  label="cantidad"
+                  name="cantidad"
+                  autoComplete="lname"
+                  onChange={e=>a2=e.target.value}
+                  type="number"
+                />
+                  <Button variant="contained" onClick={(e) => {
+                    const a3 = {
+                      ingredient: {denominacion: a1.denominacion, _id:a1._id},
+                      cantidad: a2,
+                    }
+                    setAux([...aux, a3])
+                    }}>
+                    Agregar
+                  </Button>
+             </form>
+    }
+  }
   return (
     <>
+    {console.log(producto)}
       <Fab
         color="primary"
         aria-label="add"
@@ -261,26 +318,28 @@ const AddNewProducto = () => {
                 </label>
               </Grid>
               <Grid item xs={12}>
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      checked={checked.esManufacturado}
-                      onChange={handleChange}
-                      name="esManufacturado"
-                    />
-                  }
-                  label="Es Manufacturado"
-                />
-                <List
-                  ingredientes={ingredientes}
-                  stateProductos={setProducto}
-                />
+                <Select
+                  labelId="demo-simple-select-outlined-label"
+                  id="demo-simple-select-outlined"
+                  value={producto.esManufacturado}
+                  label="manufacturado"
+                  variant="outlined"
+                  onChange={onChange}
+                  name="esManufacturado"
+                  required="true"
+                  fullWidth
+                >
+                  <MenuItem value={true}>Es manufacturado</MenuItem>
+                  <MenuItem value={false}>NO es manufacturado</MenuItem>
+                </Select>
+                {verIngSelecionados()}
+                {añadirIngrediente()}
+                {console.log(aux)}
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
-                  disabled={checked}
                   variant="outlined"
-                  required
+                  required="true"
                   fullWidth
                   id="precioVenta"
                   label="Precio Venta"

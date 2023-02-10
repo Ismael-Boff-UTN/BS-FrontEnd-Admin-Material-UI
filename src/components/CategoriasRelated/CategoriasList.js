@@ -107,6 +107,7 @@ const CategoriasList = () => {
     {
       title: "Estado",
       field: "estado",
+      editable: "never",
       render: (rowData) =>
       rowData.estado === true ? (
         <Chip
