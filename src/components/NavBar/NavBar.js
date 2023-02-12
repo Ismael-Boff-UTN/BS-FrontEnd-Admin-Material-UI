@@ -81,7 +81,7 @@ export default function NavBar() {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
-  const { nombre, apellido, img, rol} = useSelector((state) => state.auth.resto);
+  const { nombre, apellido, img} = useSelector((state) => state.auth.resto);
 
   const dispatch = useDispatch();
   const handleLogout = () => {

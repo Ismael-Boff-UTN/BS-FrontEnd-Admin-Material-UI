@@ -54,7 +54,7 @@ const UsuariosList = () => {
     {
       title: "Rol",
       field: "rol",
-      lookup: { "ADMIN_ROLE": "ADMIN_ROLE", "COCINERO_ROLE": "COCINERO_ROLE", "DELIVERY_ROLE": "DELIVERY_ROLE", "COCINERO_ROLE": "COCINERO_ROLE", "CAJA_ROLE": "CAJA_ROLE" },
+      lookup: { "ADMIN_ROLE": "ADMIN_ROLE", "COCINERO_ROLE": "COCINERO_ROLE", "DELIVERY_ROLE": "DELIVERY_ROLE", "CAJA_ROLE": "CAJA_ROLE" },
     },
     {
       title: "Estado",

@@ -8,6 +8,7 @@ import Paper from "@material-ui/core/Paper";
 import Ganancias from "./Ganancias";
 import Recaudaciones from "./Recaudaciones";
 import PedidosRecientes from "./PedidosRecientes";
+import Racking from "./Ranking";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -69,6 +70,12 @@ const Home = () => {
         <Grid item xs={12}>
           <Paper className={classes.paper}>
             <PedidosRecientes />
+          </Paper>
+        </Grid>
+        {/* rancking pedidos */}
+        <Grid item xs={12}>
+          <Paper className={classes.paper}>
+            <Racking />
           </Paper>
         </Grid>
       </Grid>

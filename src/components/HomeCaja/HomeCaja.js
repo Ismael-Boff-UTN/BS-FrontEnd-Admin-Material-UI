@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { BlockLoading } from "react-loadingg";
 import MaterialTable from "material-table";
 import Chip from "@material-ui/core/Chip/Chip";
-import { Typography } from "@material-ui/core";
 import swal from "sweetalert2";
 
 const HomeCaja = () => {

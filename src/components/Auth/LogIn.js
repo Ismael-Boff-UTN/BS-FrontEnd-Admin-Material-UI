@@ -12,9 +12,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import FastfoodIcon from "@material-ui/icons/Fastfood";
 //
 import { useDispatch } from "react-redux";
-import { startLogin, startLoginGoogle } from "../../actions/auth";
+import { startLogin } from "../../actions/auth";
 import swal from "sweetalert2";
-import { GoogleLogin } from '@react-oauth/google';
 
 function Copyright() {
   return (
@@ -68,15 +67,6 @@ const useStyles = makeStyles((theme) => ({
 const LogIn = () => {
 
   const classes = useStyles();
-
-  //Login de google
-  const responseGoogle = (response) => {
-    console.log(response);
-  
-    var id_token = response.credential;
-  
-    dispatch(startLoginGoogle(id_token));
-  };
 
   const dispatch = useDispatch();
 

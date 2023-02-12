@@ -16,14 +16,11 @@ import {
   DialogContentText,
   DialogTitle,
 } from "@material-ui/core";
-import Checkbox from "@material-ui/core/Checkbox";
 import Grid from "@material-ui/core/Grid";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
 import { AppBar } from "@material-ui/core";
 import { Toolbar } from "@material-ui/core";
 
-import List from "./List";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -58,7 +55,6 @@ const useStyles = makeStyles((theme) => ({
 
 const AddNewProducto = () => {
   const [open, setOpen] = React.useState(false);
-  const [checked, setChecked] = React.useState(true);
 
   const [producto, setProducto] = React.useState({
     denominacion: Text,
@@ -112,13 +108,6 @@ const AddNewProducto = () => {
 
   const handleClose = () => {
     setOpen(false);
-  };
-  const handleChange = (e) => {
-    setChecked({ ...checked, [e.target.name]: e.target.checked });
-    setProducto({
-      ...producto,
-      [e.target.name]: e.target.checked,
-    });
   };
 
   const onChange = (e) => {
@@ -175,17 +164,16 @@ const AddNewProducto = () => {
   }
 
   function añadirIngrediente(){
-    if(producto.esManufacturado==true){
+    if(producto.esManufacturado===true){
       var a1;
-      var a2;
+      var a2=1;
       return <form >
                 <Select
-                  labelId="demo-simple-select-outlined-label"
-                  id="demo-simple-select-outlined"
-                  value={producto.articuluManufacturadoDetalle}
-                  label="Detalle"
+                  labelId="Ingrediente"
+                  id="Ingrediente"
+                  label="Ingrediente"
                   variant="outlined"
-                  name="detalle"
+                  name="Ingrediente"
                   onChange={e=>a1=e.target.value}
                   fullWidth
                   >
@@ -212,7 +200,8 @@ const AddNewProducto = () => {
                       cantidad: a2,
                     }
                     setAux([...aux, a3])
-                    }}>
+                    }
+                    }>
                     Agregar
                   </Button>
              </form>
@@ -220,7 +209,7 @@ const AddNewProducto = () => {
   }
   return (
     <>
-    {console.log(producto)}
+    {/*console.log(producto)*/}
       <Fab
         color="primary"
         aria-label="add"
@@ -334,7 +323,7 @@ const AddNewProducto = () => {
                 </Select>
                 {verIngSelecionados()}
                 {añadirIngrediente()}
-                {console.log(aux)}
+                {/*console.log(aux)*/}
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
