@@ -18,12 +18,14 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Deposits({ title }) {
   const classes = useStyles();
+  const [fechaInicial, setFechaInicial] = useState({varOne:new Date(2020,6,28)});
+  const [fechaFinal, setFechaFinal] = useState({varOne:new Date(2025,9,30)});
   const [recaudaciones, setRecaudaciones] = useState([]);
 
   useEffect(() => {
     axios
       .get(
-        "http://localhost:4000/api/auditoria/recaudaciones?fechaInicial=2020-06-28&fechaFinal=2025-09-30"
+        "http://localhost:4000/api/auditoria/recaudaciones?fechaInicial="+fechaInicial.varOne+"&fechaFinal="+fechaFinal.varOne
       )
       .then((response) => {
         // Obtenemos los datos
@@ -35,10 +37,34 @@ export default function Deposits({ title }) {
         console.log(e);
       });
   }, []);
+
+  useEffect(() => {
+    axios
+      .get(
+        "http://localhost:4000/api/auditoria/recaudaciones?fechaInicial="+fechaInicial.varOne+"&fechaFinal="+fechaFinal.varOne
+      )
+      .then((response) => {
+        // Obtenemos los datos
+
+        setRecaudaciones(response.data);
+      })
+      .catch((e) => {
+        // Capturamos los errores
+        console.log(e);
+      });
+  }, [fechaInicial, fechaFinal]);
+
+  const onChange1=(e)=>{
+    setFechaInicial({varOne:e.target.value})
+  }
+  const onChange2=(e)=>{
+    setFechaFinal({varOne:e.target.value})
+  }
   return (
     <>
-      <div>
-        {title === "Recaudaciones De Hoy" ? (
+
+<div>
+        {title === "Ganancias Periodo Tiempo"? (
           <>
             <Typography
               component="h2"
@@ -49,7 +75,7 @@ export default function Deposits({ title }) {
               {title}
             </Typography>
             <Typography component="p" variant="h4">
-              $ {recaudaciones.totalRecaudacion}
+              $ {recaudaciones.totalGanancias}
             </Typography>
             <Typography
               color="textSecondary"
@@ -57,6 +83,28 @@ export default function Deposits({ title }) {
             >
               {recaudaciones.resultados}
             </Typography>
+            <TextField
+              id="datetime-local"
+              label="Fecha Inicial"
+              type="datetime-local"
+              defaultValue="2017-05-24T10:30"
+              onChange={onChange1}
+              className={classes.textField}
+              InputLabelProps={{
+                shrink: true,
+              }}
+            />
+            <TextField
+              id="datetime-local"
+              label="Fecha Final"
+              type="datetime-local"
+              defaultValue="2017-05-24T10:30"
+              className={classes.textField}
+              onChange={onChange2}
+              InputLabelProps={{
+                shrink: true,
+              }}
+            />
           </>
         ) : (
           <></>
@@ -64,8 +112,7 @@ export default function Deposits({ title }) {
       </div>
 
       <div>
-        {title === "Ganancias Periodo Tiempo" ||
-        title === "Recaudaciones Periodo Tiempo" ? (
+        {title === "Recaudaciones Periodo Tiempo" ? (
           <>
             <Typography
               component="h2"
@@ -89,6 +136,7 @@ export default function Deposits({ title }) {
               label="Fecha Inicial"
               type="datetime-local"
               defaultValue="2017-05-24T10:30"
+              onChange={onChange1}
               className={classes.textField}
               InputLabelProps={{
                 shrink: true,
@@ -100,17 +148,11 @@ export default function Deposits({ title }) {
               type="datetime-local"
               defaultValue="2017-05-24T10:30"
               className={classes.textField}
+              onChange={onChange2}
               InputLabelProps={{
                 shrink: true,
               }}
             />
-            <Button
-              variant="contained"
-              color="primary"
-              className={classes.calcularBtn}
-            >
-              Calcular
-            </Button>
           </>
         ) : (
           <></>

@@ -21,6 +21,7 @@ export default function Ganancias() {
   const [ganancias, setGanancias] = useState([]);
 
   useEffect(() => {
+    
     axios
       .get(
         "http://localhost:4000/api/auditoria/ganancias/?fechaInicial=2021-07-06T12:00:00.773Z&fechaFinal=2021-07-07T16:00:00.773Z"
@@ -48,7 +49,7 @@ export default function Ganancias() {
   return (
     <React.Fragment>
       <Typography component="h2" variant="h6" color="primary" gutterBottom>
-        Ganancias De Hoy $ ({ganancias.totalGanancias})
+        Ganancias De Todos Los Tiempos $ ({ganancias.totalGanancias})
       </Typography>
       <ResponsiveContainer>
         <LineChart

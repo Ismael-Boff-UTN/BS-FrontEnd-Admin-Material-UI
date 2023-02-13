@@ -7,6 +7,7 @@ import Paper from "@material-ui/core/Paper";
 
 import Ganancias from "./Ganancias";
 import Recaudaciones from "./Recaudaciones";
+import RecaudacionesDelDia from "./RecaudacionesDelDia";
 import PedidosRecientes from "./PedidosRecientes";
 import Racking from "./Ranking";
 
@@ -50,7 +51,7 @@ const Home = () => {
         {/* Recaudaciones */}
         <Grid item xs={12} md={4} lg={3}>
           <Paper className={fixedHeightPaper}>
-            <Recaudaciones title={"Recaudaciones De Hoy"}/>
+            <RecaudacionesDelDia/>
           </Paper>
         </Grid>
         {/* Recaudaciones */}
