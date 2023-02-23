@@ -81,7 +81,8 @@ const AddNewIngrediente = () => {
     precioCompra: "",
     stockActual: "",
     stockMinimo: "",
-    unidadMedida: "",
+    unidadMedida: "Unidad Medida"
+
   });
 
   const handleClickOpen = () => {
@@ -108,7 +109,10 @@ const AddNewIngrediente = () => {
       ingrediente.precioCompra === "" ||
       ingrediente.stockActual === "" ||
       ingrediente.stockMinimo === "" ||
-      ingrediente.unidadMedida === ""
+      ingrediente.unidadMedida === "" ||
+
+      ingrediente.unidadMedida === "Unidad Medida"
+
     ) {
       setError(true);
 
@@ -145,7 +149,7 @@ const AddNewIngrediente = () => {
         className={classes.fab}
       >
         <AddIcon />
-        Añadir Ingrediente
+        Añadir Item Stock
       </Fab>
       <Dialog
         open={open}
@@ -153,15 +157,15 @@ const AddNewIngrediente = () => {
         aria-labelledby="form-dialog-title"
         TransitionComponent={Transition}
         maxWidth={"md"}
-        //fullScreen
+      //fullScreen
       >
         <DialogTitle id="form-dialog-title" className={classes.dialogTitle}>
           <AppBar position="absolute" className={classes.dialogBar}>
-            <Toolbar>Creacion De Nuevo Ingrediente</Toolbar>
+            <Toolbar>Creacion De Nuevo Item</Toolbar>
           </AppBar>
         </DialogTitle>
         {error ? (
-          <Alert msg={"Campos Vacios"} tipo={"warning"}/>
+          <Alert msg={"Campos Vacios"} tipo={"warning"} />
         ) : (
           <></>
         )}
@@ -229,8 +233,8 @@ const AddNewIngrediente = () => {
               </Grid>
               <Grid item xs={12} sm={6}>
                 <Select
-                  labelId="demo-simple-select-outlined-label"
-                  id="demo-simple-select-outlined"
+                  labelId="demo-simple-select-outlined-label1"
+                  id="demo-simple-select-outlined1"
                   value={ingrediente.unidadMedida}
                   label="Unidad Medida"
                   variant="outlined"
@@ -247,6 +251,8 @@ const AddNewIngrediente = () => {
                   <MenuItem value={"unidad"}>Unidad</MenuItem>
                 </Select>
               </Grid>
+
+
             </Grid>
           </form>
         </DialogContent>

@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
-import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
 import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
@@ -22,16 +20,16 @@ export default function Deposits({ title }) {
 
   useEffect(() => {
     let fechaActual = new Date();
-    var diaInicial=fechaActual.getDate();
-    var mesInicial=fechaActual.getMonth()+1;
-    var anioInicial=fechaActual.getFullYear();
+    var diaInicial = fechaActual.getDate();
+    var mesInicial = fechaActual.getMonth() + 1;
+    var anioInicial = fechaActual.getFullYear();
 
-    var diaFinal=fechaActual.getDate()+1;
-    var mesFinal=fechaActual.getMonth()+1;
-    var anioFinal=fechaActual.getFullYear();
-    const fechaFinal=String(fechaActual);
+    var diaFinal = fechaActual.getDate() + 1;
+    var mesFinal = fechaActual.getMonth() + 1;
+    var anioFinal = fechaActual.getFullYear();
+    const fechaFinal = String(fechaActual);
     axios
-      .get("http://localhost:4000/api/auditoria/recaudaciones?fechaInicial="+anioInicial+"-"+mesInicial+"-"+diaInicial+"&fechaFinal="+anioFinal+"-"+mesFinal+"-"+diaFinal)
+      .get("http://localhost:4000/api/auditoria/recaudaciones?fechaInicial=" + anioInicial + "-" + mesInicial + "-" + diaInicial + "&fechaFinal=" + anioFinal + "-" + mesFinal + "-" + diaFinal)
       .then((response) => {
         // Obtenemos los datos
 
@@ -45,25 +43,25 @@ export default function Deposits({ title }) {
   return (
     <>
       <div>
-          <>
-            <Typography
-              component="h2"
-              variant="h6"
-              color="primary"
-              gutterBottom
-            >
-              {title}
-            </Typography>
-            <Typography component="p" variant="h4">
-              $ {recaudaciones.totalGanancias}
-            </Typography>
-            <Typography
-              color="textSecondary"
-              className={classes.depositContext}
-            >
-              {recaudaciones.resultados}
-            </Typography>
-          </>
+        <>
+          <Typography
+            component="h2"
+            variant="h6"
+            color="primary"
+            gutterBottom
+          >
+            {title}
+          </Typography>
+          <Typography component="p" variant="h4">
+            $ {recaudaciones.totalGanancias}
+          </Typography>
+          <Typography
+            color="textSecondary"
+            className={classes.depositContext}
+          >
+            {recaudaciones.resultados}
+          </Typography>
+        </>
       </div>
     </>
   );

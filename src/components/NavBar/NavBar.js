@@ -80,8 +80,9 @@ export default function NavBar() {
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
+  const rol = useSelector((state) => state.auth.resto.rol);
+  const { nombre, apellido, img } = useSelector((state) => state.auth.resto);
 
-  const { nombre, apellido, img} = useSelector((state) => state.auth.resto);
 
   const dispatch = useDispatch();
   const handleLogout = () => {
@@ -197,76 +198,138 @@ export default function NavBar() {
             textColor="secondary"
             aria-label="icon label tabs example"
           >
-            <Tab
+
+
+            {rol === "ADMIN_ROLE" ? <Tab
               icon={<HomeIcon />}
               label="Home"
               component={RouterLink}
               to="/home"
               value="/home"
-            />
-            <Tab
+            /> : <p></p>}
+
+            {rol === "COCINERO_ROLE" ? <Tab
               icon={<ExtensionOutlinedIcon />}
-              label="Ingredientes"
+              label="Stock"
               component={RouterLink}
               to="/ingredientes-list"
               value="/ingredientes-list"
-            />
-            <Tab
+            /> : <p></p>}
+
+            {rol === "ADMIN_ROLE" ? <Tab
+              icon={<ExtensionOutlinedIcon />}
+              label="Stock"
+              component={RouterLink}
+              to="/ingredientes-list"
+              value="/ingredientes-list"
+            /> : <p></p>}
+
+            {rol === "COCINERO_ROLE" ? <Tab
               icon={<FastfoodIcon />}
               label="Productos"
               component={RouterLink}
               to="/products-list"
               value="/products-list"
-            />
-            <Tab
+            /> : <p></p>}
+
+            {rol === "ADMIN_ROLE" ? <Tab
+              icon={<FastfoodIcon />}
+              label="Productos"
+              component={RouterLink}
+              to="/products-list"
+              value="/products-list"
+            /> : <p></p>}
+
+            {rol === "ADMIN_ROLE" ? <Tab
               icon={<AccountCircleOutlinedIcon />}
               label="Usuarios"
               component={RouterLink}
               to="/usuarios-list"
               value="/usuarios-list"
-            />
-            <Tab
+            /> : <p></p>}
+
+
+            {rol === "ADMIN_ROLE" ? <Tab
               icon={<MergeTypeOutlinedIcon />}
               label="Categorias"
               component={RouterLink}
               to="/categorias-list"
               value="/categorias-list"
-            />
-            <Tab
+            /> : <p></p>}
+
+
+
+            {rol === "ADMIN_ROLE" ? <Tab
               icon={<VpnKeyOutlinedIcon />}
               label="Roles"
               component={RouterLink}
               to="/roles-list"
               value="/roles-list"
-            />
-            <Tab
+            /> : <p></p>}
+
+            {rol === "CAJA_ROLE" ? <Tab
               icon={<FastfoodIcon />}
               label="Caja Admision"
               component={RouterLink}
               to="/caja-adm-list"
               value="/caja-adm-list"
-            />
-            <Tab
+            /> : <p></p>}
+
+            {rol === "ADMIN_ROLE" ? <Tab
               icon={<FastfoodIcon />}
-              label="Cocinero"
+              label="Caja Admision"
+              component={RouterLink}
+              to="/caja-adm-list"
+              value="/caja-adm-list"
+            /> : <p></p>}
+
+            {rol === "COCINERO_ROLE" ? <Tab
+              icon={<FastfoodIcon />}
+              label="Cocinero Pedidos"
               component={RouterLink}
               to="/cocinero-list"
               value="/cocinero-list"
-            />
-            <Tab
+
+            /> : <p></p>}
+            {rol === "ADMIN_ROLE" ? <Tab
+              icon={<FastfoodIcon />}
+              label="Cocinero Pedidos"
+              component={RouterLink}
+              to="/cocinero-list"
+              value="/cocinero-list"
+
+            /> : <p></p>}
+            {rol === "CAJA_ROLE" ? <Tab
               icon={<FastfoodIcon />}
               label="Caja Facturacion"
               component={RouterLink}
               to="/caja-fact-list"
               value="/caja-fact-list"
-            />
-            <Tab
-              icon={<FastfoodIcon/>}
+            /> : <p></p>}
+            {rol === "ADMIN_ROLE" ? <Tab
+              icon={<FastfoodIcon />}
+              label="Caja Facturacion"
+              component={RouterLink}
+              to="/caja-fact-list"
+              value="/caja-fact-list"
+            /> : <p></p>}
+
+            {rol === "DELIVERY_ROLE" ? <Tab
+              icon={<FastfoodIcon />}
               label="Delivery"
               component={RouterLink}
               to="/delivery-list"
               value="/delivery-list"
-            />
+            /> : <p></p>}
+
+            {rol === "ADMIN_ROLE" ? <Tab
+              icon={<FastfoodIcon />}
+              label="Delivery"
+              component={RouterLink}
+              to="/delivery-list"
+              value="/delivery-list"
+            /> : <p></p>}
+
           </Tabs>
         </Paper>
       </AppBar>

@@ -62,6 +62,23 @@ const IngredientesList = () => {
       field: "denominacion",
     },
     {
+      title: "Ingrediente?",
+      field: "esIngrediente",
+      editable: "never",
+      render: (rowData) =>
+        rowData.esIngrediente === true ? (
+          <Chip
+            label="SI"
+            style={{ backgroundColor: "green", color: "white" }}
+          />
+        ) : (
+          <Chip
+            label="NO"
+            style={{ backgroundColor: "red", color: "white" }}
+          />
+        ),
+    },
+    {
       title: "Precio Compra",
       field: "precioCompra",
       type: "numeric",
@@ -108,6 +125,7 @@ const IngredientesList = () => {
             style={{ backgroundColor: "red", color: "white" }}
           />
         ),
+        
     },
   ];
 
@@ -116,7 +134,7 @@ const IngredientesList = () => {
       <MaterialTable
         columns={cols}
         data={ingredientes}
-        title="Listado Ingredientes"
+        title="Stock"
         actions={[
           {
             icon: "delete",

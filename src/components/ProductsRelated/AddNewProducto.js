@@ -15,11 +15,17 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
+  Chip,
+
 } from "@material-ui/core";
+import { Stack } from "@mui/material";
 import Grid from "@material-ui/core/Grid";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import { AppBar } from "@material-ui/core";
 import { Toolbar } from "@material-ui/core";
+
+
+
 
 
 const useStyles = makeStyles((theme) => ({
@@ -74,7 +80,7 @@ const AddNewProducto = () => {
   const token = localStorage.getItem("token");
 
   useEffect(() => {
-    setProducto({...producto, articuluManufacturadoDetalle:aux});
+    setProducto({ ...producto, articuluManufacturadoDetalle: aux });
   }, [aux]);
 
   useEffect(() => {
@@ -159,57 +165,70 @@ const AddNewProducto = () => {
     };
   };
 
-  function verIngSelecionados(){
-    return <Grid> {aux?.map((ing) => (<p>{ing.ingredient.denominacion} {ing.cantidad}</p>))}</Grid>
+
+
+
+
+
+  function verIngSelecionados() {
+    return <Grid><Stack
+      direction="column"
+      justifyContent="flex-start"
+      alignItems="center"
+      spacing={1}
+    > {aux?.map((ing) => (<Chip label={`${ing.ingredient.denominacion} x  ${ing.cantidad} ${ing.ingredient.unidadMedida} `} color="primary" />))}</Stack></Grid>
   }
 
-  function añadirIngrediente(){
-    if(producto.esManufacturado===true){
+  function añadirIngrediente() {
+    if (producto.esManufacturado === true) {
       var a1;
-      var a2=1;
+      var a2 = 1;
       return <form >
-                <Select
-                  labelId="Ingrediente"
-                  id="Ingrediente"
-                  label="Ingrediente"
-                  variant="outlined"
-                  name="Ingrediente"
-                  onChange={e=>a1=e.target.value}
-                  fullWidth
-                  >
-                    <MenuItem value={producto.articuluManufacturadoDetalle} disabled>
-                      Ingrediente
-                    </MenuItem>
-                    {ingredientes?.map((ing) => (
-                      <MenuItem value={ing}>{ing.denominacion}</MenuItem>
-                      ))}
-                  </Select>
-                  <TextField
-                  variant="outlined"
-                  fullWidth
-                  id="cantidad"
-                  label="cantidad"
-                  name="cantidad"
-                  autoComplete="lname"
-                  onChange={e=>a2=e.target.value}
-                  type="number"
-                />
-                  <Button variant="contained" onClick={(e) => {
-                    const a3 = {
-                      ingredient: {denominacion: a1.denominacion, _id:a1._id},
-                      cantidad: a2,
-                    }
-                    setAux([...aux, a3])
-                    }
-                    }>
-                    Agregar
-                  </Button>
-             </form>
+        <Select
+          labelId="Ingrediente"
+          id="Ingrediente"
+          label={"Ingrediente"}
+          variant="outlined"
+          name="Ingrediente"
+          onChange={e => a1 = e.target.value}
+          fullWidth
+        >
+          <MenuItem value={producto.articuluManufacturadoDetalle} disabled>
+            Ingrediente
+          </MenuItem>
+          {ingredientes?.map((ing) => (
+            <MenuItem value={ing}>{ing.denominacion} --- {ing.unidadMedida}</MenuItem>
+
+          ))}
+        </Select>
+        <TextField
+          variant="outlined"
+          fullWidth
+          id="cantidad"
+          label="Cantidad"
+
+          name="cantidad"
+          autoComplete="lname"
+          onChange={e => a2 = e.target.value}
+          type="number"
+        />
+        <Button variant="contained" onClick={(e) => {
+          const a3 = {
+            ingredient: { denominacion: a1.denominacion, unidadMedida: a1.unidadMedida, _id: a1._id },
+
+            cantidad: a2,
+          }
+          setAux([...aux, a3])
+        }
+        }>
+          Agregar Ingrediente
+        </Button>
+      </form>
     }
   }
   return (
     <>
-    {/*console.log(producto)*/}
+      {/*console.log(producto)*/}
       <Fab
         color="primary"
         aria-label="add"
@@ -224,7 +243,7 @@ const AddNewProducto = () => {
         open={open}
         onClose={handleClose}
         aria-labelledby="form-dialog-title"
-        //fullScreen
+      //fullScreen
       >
         <DialogTitle id="form-dialog-title">
           <AppBar position="absolute" className={classes.dialogBar}>
@@ -318,8 +337,11 @@ const AddNewProducto = () => {
                   required="true"
                   fullWidth
                 >
-                  <MenuItem value={true}>Es manufacturado</MenuItem>
-                  <MenuItem value={false}>NO es manufacturado</MenuItem>
+                  <MenuItem value={producto.esManufacturado} disabled>
+                    Tipo
+                  </MenuItem>
+                  <MenuItem value={true}>Es Manufacturado</MenuItem>
+                  <MenuItem value={false}>No Es Manufacturado</MenuItem>
                 </Select>
                 {verIngSelecionados()}
                 {añadirIngrediente()}

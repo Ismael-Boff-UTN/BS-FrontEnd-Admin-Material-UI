@@ -34,13 +34,13 @@ export default function Orders() {
   return (
     <>
       <Typography component="h2" variant="h6" color="primary" gutterBottom>
-        Raking De Productos Pedidos
+        Raking De Productos Pedidos (TOP 10)
       </Typography>
       <Table size="small">
         <TableHead>
           <TableRow>
             <TableCell>Nombre</TableCell>
-            <TableCell>Cantidad de veces vendio</TableCell>
+            <TableCell>Cantidad de veces vendido</TableCell>
             <TableCell align="right">Precio</TableCell>
           </TableRow>
         </TableHead>
