@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
 import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
@@ -18,14 +17,14 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Deposits({ title }) {
   const classes = useStyles();
-  const [fechaInicial, setFechaInicial] = useState({varOne:new Date(2020,6,28)});
-  const [fechaFinal, setFechaFinal] = useState({varOne:new Date(2025,9,30)});
+  const [fechaInicial, setFechaInicial] = useState({ varOne: new Date(2020, 6, 28) });
+  const [fechaFinal, setFechaFinal] = useState({ varOne: new Date(2025, 9, 30) });
   const [recaudaciones, setRecaudaciones] = useState([]);
 
   useEffect(() => {
     axios
       .get(
-        "http://localhost:4000/api/auditoria/recaudaciones?fechaInicial="+fechaInicial.varOne+"&fechaFinal="+fechaFinal.varOne
+        "http://localhost:4000/api/auditoria/recaudaciones?fechaInicial=" + fechaInicial.varOne + "&fechaFinal=" + fechaFinal.varOne
       )
       .then((response) => {
         // Obtenemos los datos
@@ -41,7 +40,7 @@ export default function Deposits({ title }) {
   useEffect(() => {
     axios
       .get(
-        "http://localhost:4000/api/auditoria/recaudaciones?fechaInicial="+fechaInicial.varOne+"&fechaFinal="+fechaFinal.varOne
+        "http://localhost:4000/api/auditoria/recaudaciones?fechaInicial=" + fechaInicial.varOne + "&fechaFinal=" + fechaFinal.varOne
       )
       .then((response) => {
         // Obtenemos los datos
@@ -54,17 +53,17 @@ export default function Deposits({ title }) {
       });
   }, [fechaInicial, fechaFinal]);
 
-  const onChange1=(e)=>{
-    setFechaInicial({varOne:e.target.value})
+  const onChange1 = (e) => {
+    setFechaInicial({ varOne: e.target.value })
   }
-  const onChange2=(e)=>{
-    setFechaFinal({varOne:e.target.value})
+  const onChange2 = (e) => {
+    setFechaFinal({ varOne: e.target.value })
   }
   return (
     <>
 
-<div>
-        {title === "Ganancias Periodo Tiempo"? (
+      <div>
+        {title === "Ganancias Periodo Tiempo" ? (
           <>
             <Typography
               component="h2"
@@ -87,7 +86,7 @@ export default function Deposits({ title }) {
               id="datetime-local"
               label="Fecha Inicial"
               type="datetime-local"
-              defaultValue="2017-05-24T10:30"
+              defaultValue="2023-01-24T10:30"
               onChange={onChange1}
               className={classes.textField}
               InputLabelProps={{
@@ -98,7 +97,7 @@ export default function Deposits({ title }) {
               id="datetime-local"
               label="Fecha Final"
               type="datetime-local"
-              defaultValue="2017-05-24T10:30"
+              defaultValue="2024-05-24T10:30"
               className={classes.textField}
               onChange={onChange2}
               InputLabelProps={{
@@ -135,7 +134,7 @@ export default function Deposits({ title }) {
               id="datetime-local"
               label="Fecha Inicial"
               type="datetime-local"
-              defaultValue="2017-05-24T10:30"
+              defaultValue="2023-01-24T10:30"
               onChange={onChange1}
               className={classes.textField}
               InputLabelProps={{
@@ -146,7 +145,7 @@ export default function Deposits({ title }) {
               id="datetime-local"
               label="Fecha Final"
               type="datetime-local"
-              defaultValue="2017-05-24T10:30"
+              defaultValue="2024-05-24T10:30"
               className={classes.textField}
               onChange={onChange2}
               InputLabelProps={{

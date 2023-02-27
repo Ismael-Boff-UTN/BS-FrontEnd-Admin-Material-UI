@@ -24,7 +24,7 @@ export default function Ganancias() {
     
     axios
       .get(
-        "http://localhost:4000/api/auditoria/ganancias/?fechaInicial=2021-07-06T12:00:00.773Z&fechaFinal=2021-07-07T16:00:00.773Z"
+        "http://localhost:4000/api/auditoria/ganancias/?fechaInicial=2020-07-06T12:00:00.773Z&fechaFinal=2099-07-07T16:00:00.773Z"
       )
       .then((response) => {
         // Obtenemos los datos
